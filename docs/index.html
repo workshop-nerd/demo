@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Premiazione Nazionale — Progetto NERD 2026</title>
+  <title>STEM Hall of Fame — Progetto NERD? 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
@@ -17,384 +17,481 @@
             mono: ['"IBM Plex Mono"', 'monospace'],
           },
           colors: {
-            navy:  '#001141',
-            ibm:   '#0F62FE',
-            gold:  '#C9A84C',
+            navy:   '#001141',
+            ibm:    '#0F62FE',
+            gold:   '#C9A84C',
+            nerd:   '#FF2D78',
+            'nerd-dark': '#C4005A',
+            'nerd-light': '#FFE0EC',
           },
         }
       }
     }
   </script>
   <style type="text/tailwindcss">
-    .tab-btn-active { @apply border-b-2 border-gold text-navy font-semibold; }
-    .tab-btn-inactive { @apply border-b-2 border-transparent text-gray-500 hover:text-ibm; }
+    .badge-wall-item {
+      @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold
+             bg-nerd-light text-nerd-dark border border-nerd/30
+             transition-all duration-300;
+    }
+    .badge-wall-item.new-entry {
+      @apply bg-nerd text-white border-nerd scale-110;
+    }
+    .section-eyebrow {
+      @apply text-[11px] font-semibold tracking-[.2em] uppercase mb-3;
+    }
+    .section-heading {
+      @apply text-3xl sm:text-4xl font-bold leading-tight mb-4;
+    }
   </style>
 </head>
 <body class="font-sans bg-white text-gray-900 antialiased">
 
   <!-- ══ NAV ══════════════════════════════════════════════ -->
-  <nav class="sticky top-0 z-50 bg-navy border-b-[3px] border-gold">
+  <nav class="sticky top-0 z-50 bg-navy border-b-[3px] border-nerd">
     <div class="max-w-6xl mx-auto px-6 flex items-center justify-between h-14">
-      <span class="text-xs font-bold tracking-widest text-white uppercase">
-        Progetto <span class="text-gold">NERD</span> 2026
-      </span>
+      <a href="#hero" class="flex items-center gap-2">
+        <span class="text-nerd font-black text-lg tracking-tight">NERD<span class="text-gold">?</span></span>
+        <span class="hidden sm:inline text-xs font-semibold tracking-widest text-white/70 uppercase">STEM Hall of Fame 2026</span>
+      </a>
       <ul class="hidden sm:flex gap-8 list-none">
-        <li><a href="#countdown" class="text-sm text-gray-300 hover:text-gold transition-colors">Countdown</a></li>
-        <li><a href="#vincitrici" class="text-sm text-gray-300 hover:text-gold transition-colors">Vincitrici</a></li>
-        <li><a href="#galleria" class="text-sm text-gray-300 hover:text-gold transition-colors">Progetti</a></li>
+        <li><a href="#successi"  class="text-sm text-gray-300 hover:text-nerd transition-colors">Successi</a></li>
+        <li><a href="#leader"    class="text-sm text-gray-300 hover:text-nerd transition-colors">Le Leader</a></li>
+        <li><a href="#muro"      class="text-sm text-gray-300 hover:text-nerd transition-colors">Muro</a></li>
+        <li><a href="#countdown" class="text-sm text-gray-300 hover:text-nerd transition-colors">Gala</a></li>
       </ul>
     </div>
   </nav>
 
   <!-- ══ HERO ══════════════════════════════════════════════ -->
-  <section id="hero" class="relative overflow-hidden bg-gradient-to-br from-navy via-[#0A3580] to-ibm py-24 px-6 text-center text-white">
-    <!-- decorative vertical lines -->
-    <div class="pointer-events-none absolute inset-0"
-         style="background: repeating-linear-gradient(90deg,rgba(255,255,255,.03) 0,rgba(255,255,255,.03) 1px,transparent 1px,transparent 60px)">
-    </div>
-    <div class="relative max-w-3xl mx-auto">
-      <div class="inline-block border border-gold text-gold text-[11px] font-semibold tracking-[.18em] uppercase px-4 py-1.5 mb-8">
+  <section id="hero" class="relative overflow-hidden bg-navy py-24 sm:py-32 px-6 text-center text-white">
+    <!-- grid pattern -->
+    <div class="pointer-events-none absolute inset-0 opacity-[0.06]"
+         style="background-image: linear-gradient(#FF2D78 1px,transparent 1px),linear-gradient(90deg,#FF2D78 1px,transparent 1px);background-size:48px 48px"></div>
+    <!-- glow blobs -->
+    <div class="pointer-events-none absolute -top-24 -left-24 w-96 h-96 rounded-full bg-nerd/20 blur-3xl"></div>
+    <div class="pointer-events-none absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-ibm/20 blur-3xl"></div>
+
+    <div class="relative max-w-4xl mx-auto">
+      <!-- pill badge -->
+      <div class="inline-flex items-center gap-2 bg-nerd/10 border border-nerd/40 text-nerd text-xs font-bold tracking-widest uppercase px-4 py-2 rounded-full mb-8">
+        <span class="w-2 h-2 rounded-full bg-nerd animate-pulse"></span>
         Edizione 2026 &bull; Italia
       </div>
-      <h1 class="text-4xl sm:text-5xl font-bold leading-tight mb-3 tracking-tight">
-        Premiazione Nazionale<br>
-        <span class="text-gold">Progetto NERD</span> 2026
+
+      <h1 class="text-4xl sm:text-6xl font-black leading-[1.05] tracking-tight mb-6">
+        <span class="text-white">Celebriamo le</span><br>
+        <span class="text-nerd">34 Leader STEM</span><br>
+        <span class="text-white">dell'edizione 2026</span>
       </h1>
-      <p class="text-lg sm:text-xl font-light text-white/80 mb-10 max-w-xl mx-auto">
-        Celebriamo le donne che stanno ridefinendo la tecnologia,
-        l'innovazione e il futuro digitale dell'Italia.
+
+      <p class="text-lg sm:text-xl font-light text-white/75 mb-10 max-w-2xl mx-auto leading-relaxed">
+        Ragazze straordinarie da tutta Italia che hanno dimostrato come la curiosità,
+        il coraggio e la tecnologia possano cambiare il mondo.
       </p>
-      <div class="w-16 h-[3px] bg-gold mx-auto mb-10"></div>
-      <div class="flex justify-center gap-10 flex-wrap">
+
+      <div class="w-20 h-[3px] mx-auto mb-10" style="background:linear-gradient(90deg,#FF2D78,#C9A84C)"></div>
+
+      <!-- stats row -->
+      <div class="flex flex-wrap justify-center gap-8 sm:gap-16">
         <div class="text-center">
-          <span class="block font-mono text-3xl font-semibold text-gold leading-none">48</span>
-          <span class="block text-[11px] tracking-widest uppercase text-white/60 mt-1">Candidature</span>
+          <span class="block font-mono text-4xl font-bold text-nerd leading-none">34</span>
+          <span class="block text-[11px] tracking-widest uppercase text-white/50 mt-1.5">Leader STEM</span>
         </div>
         <div class="text-center">
-          <span class="block font-mono text-3xl font-semibold text-gold leading-none">6</span>
-          <span class="block text-[11px] tracking-widest uppercase text-white/60 mt-1">Vincitrici</span>
+          <span class="block font-mono text-4xl font-bold text-gold leading-none">8</span>
+          <span class="block text-[11px] tracking-widest uppercase text-white/50 mt-1.5">Regioni</span>
         </div>
         <div class="text-center">
-          <span class="block font-mono text-3xl font-semibold text-gold leading-none">9</span>
-          <span class="block text-[11px] tracking-widest uppercase text-white/60 mt-1">Progetti Finalisti</span>
+          <span class="block font-mono text-4xl font-bold text-ibm leading-none">4</span>
+          <span class="block text-[11px] tracking-widest uppercase text-white/50 mt-1.5">Progetti Top</span>
         </div>
         <div class="text-center">
-          <span class="block font-mono text-3xl font-semibold text-gold leading-none">3</span>
-          <span class="block text-[11px] tracking-widest uppercase text-white/60 mt-1">Categorie</span>
+          <span class="block font-mono text-4xl font-bold text-white leading-none">1</span>
+          <span class="block text-[11px] tracking-widest uppercase text-white/50 mt-1.5">Missione</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ══ COUNTDOWN ════════════════════════════════════════ -->
-  <section id="countdown" class="py-20 px-6 bg-gray-50">
+  <!-- ══ SUCCESSI ══════════════════════════════════════════ -->
+  <section id="successi" class="py-20 px-6 bg-white">
     <div class="max-w-6xl mx-auto">
-      <p class="text-[11px] font-semibold tracking-[.18em] uppercase text-ibm mb-3">L'evento si avvicina</p>
-      <h2 class="text-3xl sm:text-4xl font-bold text-navy mb-3">Mancano ancora…</h2>
-      <p class="text-gray-500 mb-12 max-w-lg">
-        La cerimonia di premiazione si terrà il <strong class="text-navy">15 maggio 2026</strong> a Milano.
+      <p class="section-eyebrow text-nerd">I Nostri Successi</p>
+      <h2 class="section-heading text-navy">
+        L'eccellenza di quest'anno<br>
+        <span class="text-nerd">in quattro progetti</span>
+      </h2>
+      <p class="text-gray-500 mb-14 max-w-xl leading-relaxed">
+        Quattro progetti che rappresentano il meglio dell'innovazione, della ricerca e dell'impatto sociale sviluppati dalle studentesse del Progetto NERD? 2026.
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+        <!-- Noesis -->
+        <div class="relative group border border-gray-100 p-8 hover:border-gold transition-colors duration-300 shadow-sm hover:shadow-lg">
+          <div class="absolute top-0 left-0 w-1 h-full bg-gold group-hover:w-1.5 transition-all duration-300"></div>
+          <div class="flex items-start justify-between mb-4">
+            <span class="text-3xl">&#129504;</span>
+            <span class="inline-flex items-center gap-1 bg-gold/10 border border-gold/40 text-gold text-[11px] font-bold tracking-widest uppercase px-3 py-1 rounded-full">
+              &#127942; 1° parimerito
+            </span>
+          </div>
+          <h3 class="text-xl font-bold text-navy mb-2">Noesis</h3>
+          <p class="text-gray-500 text-sm leading-relaxed">
+            Progetto di intelligenza artificiale applicata alla comprensione del linguaggio naturale. Un sistema capace di analizzare testi complessi e generare insight significativi, premiato a pari merito per l'innovazione tecnica e la solidità della ricerca.
+          </p>
+          <div class="mt-5 flex flex-wrap gap-2">
+            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-600 px-2 py-0.5">NLP</span>
+            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-600 px-2 py-0.5">AI</span>
+            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-600 px-2 py-0.5">Python</span>
+          </div>
+        </div>
+
+        <!-- Sophia -->
+        <div class="relative group border border-gray-100 p-8 hover:border-gold transition-colors duration-300 shadow-sm hover:shadow-lg">
+          <div class="absolute top-0 left-0 w-1 h-full bg-gold group-hover:w-1.5 transition-all duration-300"></div>
+          <div class="flex items-start justify-between mb-4">
+            <span class="text-3xl">&#129302;</span>
+            <span class="inline-flex items-center gap-1 bg-gold/10 border border-gold/40 text-gold text-[11px] font-bold tracking-widest uppercase px-3 py-1 rounded-full">
+              &#127942; 1° parimerito
+            </span>
+          </div>
+          <h3 class="text-xl font-bold text-navy mb-2">Sophia</h3>
+          <p class="text-gray-500 text-sm leading-relaxed">
+            Robot educativo programmabile progettato per rendere l'apprendimento STEM accessibile a tutte le età. Sophia unisce hardware e software in un'esperienza didattica inclusiva, riconosciuta a pari merito per l'impatto educativo.
+          </p>
+          <div class="mt-5 flex flex-wrap gap-2">
+            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-600 px-2 py-0.5">Robotics</span>
+            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-600 px-2 py-0.5">Arduino</span>
+            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-600 px-2 py-0.5">EdTech</span>
+          </div>
+        </div>
+
+        <!-- Malala -->
+        <div class="relative group border border-gray-100 p-8 hover:border-nerd transition-colors duration-300 shadow-sm hover:shadow-lg">
+          <div class="absolute top-0 left-0 w-1 h-full bg-nerd group-hover:w-1.5 transition-all duration-300"></div>
+          <div class="flex items-start justify-between mb-4">
+            <span class="text-3xl">&#127775;</span>
+            <span class="inline-flex items-center gap-1 bg-nerd/10 border border-nerd/30 text-nerd-dark text-[11px] font-bold tracking-widest uppercase px-3 py-1 rounded-full">
+              Finalista
+            </span>
+          </div>
+          <h3 class="text-xl font-bold text-navy mb-2">Malala</h3>
+          <p class="text-gray-500 text-sm leading-relaxed">
+            Piattaforma digitale dedicata all'accesso equo all'istruzione per ragazze in contesti di vulnerabilità. Ispirata alla storia di Malala Yousafzai, il progetto connette mentore e studentesse attraverso tecnologia e solidarietà.
+          </p>
+          <div class="mt-5 flex flex-wrap gap-2">
+            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-600 px-2 py-0.5">Social Impact</span>
+            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-600 px-2 py-0.5">Web</span>
+            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-600 px-2 py-0.5">UX</span>
+          </div>
+        </div>
+
+        <!-- Euti -->
+        <div class="relative group border border-gray-100 p-8 hover:border-nerd transition-colors duration-300 shadow-sm hover:shadow-lg">
+          <div class="absolute top-0 left-0 w-1 h-full bg-nerd group-hover:w-1.5 transition-all duration-300"></div>
+          <div class="flex items-start justify-between mb-4">
+            <span class="text-3xl">&#127807;</span>
+            <span class="inline-flex items-center gap-1 bg-nerd/10 border border-nerd/30 text-nerd-dark text-[11px] font-bold tracking-widest uppercase px-3 py-1 rounded-full">
+              Finalista
+            </span>
+          </div>
+          <h3 class="text-xl font-bold text-navy mb-2">Euti</h3>
+          <p class="text-gray-500 text-sm leading-relaxed">
+            App di citizen science per il monitoraggio della biodiversità urbana. Euti permette ai cittadini di contribuire alla raccolta dati scientifici su flora e fauna locale, trasformando ogni smartphone in uno strumento di ricerca ambientale.
+          </p>
+          <div class="mt-5 flex flex-wrap gap-2">
+            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-600 px-2 py-0.5">Sostenibilità</span>
+            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-600 px-2 py-0.5">Mobile</span>
+            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-600 px-2 py-0.5">OpenData</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ LEADER STEM ════════════════════════════════════════ -->
+  <section id="leader" class="py-20 px-6 bg-gray-50">
+    <div class="max-w-6xl mx-auto">
+      <p class="section-eyebrow text-nerd">STEM Hall of Fame 2026</p>
+      <h2 class="section-heading text-navy">
+        Le <span class="text-nerd">34 Leader</span> di quest'anno
+      </h2>
+      <p class="text-gray-500 mb-12 max-w-xl leading-relaxed">
+        Da Lombardia a Sardegna, dalla Basilicata al Veneto: ragazze che hanno sfidato i limiti, imparato il codice e costruito il futuro.
+      </p>
+
+      <!-- Region filter tabs -->
+      <div class="flex flex-wrap gap-2 mb-10" id="region-tabs">
+        <button data-region="all" class="region-tab active-tab text-sm font-semibold px-4 py-1.5 rounded-full border-2 border-nerd bg-nerd text-white transition-all">Tutte</button>
+        <button data-region="EmiliaRomagna"  class="region-tab text-sm font-semibold px-4 py-1.5 rounded-full border-2 border-gray-200 text-gray-500 hover:border-nerd hover:text-nerd transition-all">Emilia-Romagna</button>
+        <button data-region="Lombardia"      class="region-tab text-sm font-semibold px-4 py-1.5 rounded-full border-2 border-gray-200 text-gray-500 hover:border-nerd hover:text-nerd transition-all">Lombardia</button>
+        <button data-region="Piemonte"       class="region-tab text-sm font-semibold px-4 py-1.5 rounded-full border-2 border-gray-200 text-gray-500 hover:border-nerd hover:text-nerd transition-all">Piemonte</button>
+        <button data-region="Lazio"          class="region-tab text-sm font-semibold px-4 py-1.5 rounded-full border-2 border-gray-200 text-gray-500 hover:border-nerd hover:text-nerd transition-all">Lazio</button>
+        <button data-region="Sardegna"       class="region-tab text-sm font-semibold px-4 py-1.5 rounded-full border-2 border-gray-200 text-gray-500 hover:border-nerd hover:text-nerd transition-all">Sardegna</button>
+        <button data-region="Basilicata"     class="region-tab text-sm font-semibold px-4 py-1.5 rounded-full border-2 border-gray-200 text-gray-500 hover:border-nerd hover:text-nerd transition-all">Basilicata</button>
+        <button data-region="Veneto"         class="region-tab text-sm font-semibold px-4 py-1.5 rounded-full border-2 border-gray-200 text-gray-500 hover:border-nerd hover:text-nerd transition-all">Veneto</button>
+        <button data-region="Liguria"        class="region-tab text-sm font-semibold px-4 py-1.5 rounded-full border-2 border-gray-200 text-gray-500 hover:border-nerd hover:text-nerd transition-all">Liguria</button>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4" id="leader-grid">
+        <!-- populated by JS from CSV data -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ MURO DELLE VINCITRICI ═════════════════════════════ -->
+  <section id="muro" class="py-20 px-6 bg-navy">
+    <div class="max-w-6xl mx-auto">
+      <p class="section-eyebrow text-nerd">Interattivo</p>
+      <h2 class="section-heading text-white">
+        Firma il <span class="text-nerd">Muro delle Vincitrici</span>
+      </h2>
+      <p class="text-white/60 mb-10 max-w-xl leading-relaxed">
+        Inserisci il tuo nome e guardalo apparire istantaneamente tra le straordinarie protagoniste del Progetto NERD? 2026.
+      </p>
+
+      <!-- Form -->
+      <div class="flex flex-col sm:flex-row gap-3 mb-10 max-w-lg">
+        <input
+          id="wall-input"
+          type="text"
+          maxlength="40"
+          placeholder="Il tuo nome…"
+          class="flex-1 bg-white/10 border border-white/20 text-white placeholder-white/40 px-4 py-3 text-sm font-semibold focus:outline-none focus:border-nerd focus:bg-white/15 transition-colors"
+        />
+        <button
+          id="wall-btn"
+          class="bg-nerd hover:bg-nerd-dark text-white font-bold text-sm px-6 py-3 transition-colors shrink-0 tracking-wide"
+        >
+          ✦ Firma!
+        </button>
+      </div>
+
+      <!-- Wall grid -->
+      <div id="wall-grid" class="flex flex-wrap gap-2.5 min-h-[80px]">
+        <!-- badges populated by JS -->
+      </div>
+      <p id="wall-empty" class="text-white/30 text-sm italic mt-4">
+        Nessuna firma ancora — sii la prima! &#128071;
+      </p>
+    </div>
+  </section>
+
+  <!-- ══ COUNTDOWN GALA ════════════════════════════════════ -->
+  <section id="countdown" class="py-20 px-6 bg-white">
+    <div class="max-w-6xl mx-auto">
+      <p class="section-eyebrow text-nerd">Prossimo Appuntamento</p>
+      <h2 class="section-heading text-navy">
+        Countdown al <span class="text-nerd">Gala Nazionale</span>
+      </h2>
+      <p class="text-gray-500 mb-12 max-w-lg leading-relaxed">
+        La cerimonia di premiazione ufficiale si terrà il
+        <strong class="text-navy">20 ottobre 2026</strong> a Milano.
+        Non mancare!
       </p>
 
       <div id="countdown-live">
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-xl mx-auto mb-6">
-          <div class="bg-white border border-gray-200 border-t-4 border-t-gold shadow-sm text-center py-7 px-2">
-            <span id="cd-days" class="block font-mono text-5xl font-semibold text-ibm leading-none">--</span>
-            <span class="block text-[11px] font-semibold tracking-widest uppercase text-gray-500 mt-2">Giorni</span>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mb-6">
+          <div class="bg-navy border-t-4 border-t-nerd text-center py-8 px-4 shadow-sm">
+            <span id="cd-days"  class="block font-mono text-5xl sm:text-6xl font-bold text-nerd leading-none">--</span>
+            <span class="block text-[11px] font-semibold tracking-widest uppercase text-white/50 mt-3">Giorni</span>
           </div>
-          <div class="bg-white border border-gray-200 border-t-4 border-t-gold shadow-sm text-center py-7 px-2">
-            <span id="cd-hours" class="block font-mono text-5xl font-semibold text-ibm leading-none">--</span>
-            <span class="block text-[11px] font-semibold tracking-widest uppercase text-gray-500 mt-2">Ore</span>
+          <div class="bg-navy border-t-4 border-t-gold text-center py-8 px-4 shadow-sm">
+            <span id="cd-hours" class="block font-mono text-5xl sm:text-6xl font-bold text-gold leading-none">--</span>
+            <span class="block text-[11px] font-semibold tracking-widest uppercase text-white/50 mt-3">Ore</span>
           </div>
-          <div class="bg-white border border-gray-200 border-t-4 border-t-gold shadow-sm text-center py-7 px-2">
-            <span id="cd-mins" class="block font-mono text-5xl font-semibold text-ibm leading-none">--</span>
-            <span class="block text-[11px] font-semibold tracking-widest uppercase text-gray-500 mt-2">Minuti</span>
+          <div class="bg-navy border-t-4 border-t-ibm text-center py-8 px-4 shadow-sm">
+            <span id="cd-mins"  class="block font-mono text-5xl sm:text-6xl font-bold text-ibm leading-none">--</span>
+            <span class="block text-[11px] font-semibold tracking-widest uppercase text-white/50 mt-3">Minuti</span>
           </div>
-          <div class="bg-white border border-gray-200 border-t-4 border-t-gold shadow-sm text-center py-7 px-2">
-            <span id="cd-secs" class="block font-mono text-5xl font-semibold text-ibm leading-none">--</span>
-            <span class="block text-[11px] font-semibold tracking-widest uppercase text-gray-500 mt-2">Secondi</span>
+          <div class="bg-navy border-t-4 border-t-white/30 text-center py-8 px-4 shadow-sm">
+            <span id="cd-secs"  class="block font-mono text-5xl sm:text-6xl font-bold text-white leading-none">--</span>
+            <span class="block text-[11px] font-semibold tracking-widest uppercase text-white/50 mt-3">Secondi</span>
           </div>
         </div>
-        <p class="text-center text-sm text-gray-500">
-          <strong class="text-navy">15 Maggio 2026 — ore 10:00</strong> &bull; Auditorium IBM, Milano
+        <p class="text-sm text-gray-400">
+          <strong class="text-navy">20 Ottobre 2026 — ore 18:00</strong>
+          &bull; Auditorium IBM Italia, Milano
         </p>
       </div>
 
-      <div id="countdown-done" class="hidden text-center py-10">
-        <h3 class="text-3xl font-bold text-gold">&#127881; L'evento è iniziato!</h3>
-        <p class="text-gray-500 mt-3">La cerimonia di premiazione è in corso.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══ VINCITRICI ════════════════════════════════════════ -->
-  <section id="vincitrici" class="py-20 px-6 bg-white">
-    <div class="max-w-6xl mx-auto">
-      <p class="text-[11px] font-semibold tracking-[.18em] uppercase text-ibm mb-3">Edizione 2026</p>
-      <h2 class="text-3xl sm:text-4xl font-bold text-navy mb-3">
-        Le <span class="text-gold">Vincitrici</span>
-      </h2>
-      <p class="text-gray-500 mb-12 max-w-lg">
-        Sei straordinarie protagoniste che hanno dimostrato come talento,
-        visione e determinazione possono trasformare la tecnologia in impatto reale.
-      </p>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-        <!-- Card 1 -->
-        <div class="bg-white border border-gray-200 border-t-4 border-t-gold shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all p-7">
-          <div class="w-13 h-13 rounded-full bg-ibm text-white text-lg font-bold flex items-center justify-center w-12 h-12 mb-4">GR</div>
-          <div class="text-[17px] font-bold text-navy">Giulia Rossi</div>
-          <div class="text-sm text-gray-500 mb-3">Milano, Lombardia</div>
-          <span class="inline-block text-[11px] font-semibold tracking-wide uppercase px-2.5 py-0.5 rounded-sm mb-4 bg-blue-100 text-blue-900">AI &amp; Machine Learning</span>
-          <blockquote class="text-sm italic text-gray-500 border-l-[3px] border-gold pl-3 leading-relaxed">
-            "L'intelligenza artificiale non è un obiettivo, è uno strumento per costruire un mondo più equo."
-          </blockquote>
-          <div class="mt-4 text-sm font-semibold text-gold tracking-wide">&#127942; Premio Innovazione Digitale</div>
-        </div>
-
-        <!-- Card 2 -->
-        <div class="bg-white border border-gray-200 border-t-4 border-t-gold shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all p-7">
-          <div class="w-12 h-12 rounded-full bg-ibm text-white text-lg font-bold flex items-center justify-center mb-4">SF</div>
-          <div class="text-[17px] font-bold text-navy">Sofia Ferrari</div>
-          <div class="text-sm text-gray-500 mb-3">Torino, Piemonte</div>
-          <span class="inline-block text-[11px] font-semibold tracking-wide uppercase px-2.5 py-0.5 rounded-sm mb-4 bg-green-100 text-green-900">Sostenibilità</span>
-          <blockquote class="text-sm italic text-gray-500 border-l-[3px] border-gold pl-3 leading-relaxed">
-            "Ogni riga di codice che scrivo ha il potere di avvicinarci a un pianeta più sostenibile."
-          </blockquote>
-          <div class="mt-4 text-sm font-semibold text-gold tracking-wide">&#127942; Premio Green Tech</div>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="bg-white border border-gray-200 border-t-4 border-t-gold shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all p-7">
-          <div class="w-12 h-12 rounded-full bg-ibm text-white text-lg font-bold flex items-center justify-center mb-4">CR</div>
-          <div class="text-[17px] font-bold text-navy">Chiara Romano</div>
-          <div class="text-sm text-gray-500 mb-3">Roma, Lazio</div>
-          <span class="inline-block text-[11px] font-semibold tracking-wide uppercase px-2.5 py-0.5 rounded-sm mb-4 bg-red-100 text-red-900">Social Impact</span>
-          <blockquote class="text-sm italic text-gray-500 border-l-[3px] border-gold pl-3 leading-relaxed">
-            "La tecnologia ha il dovere di includere, non di escludere. Questo è il mio impegno quotidiano."
-          </blockquote>
-          <div class="mt-4 text-sm font-semibold text-gold tracking-wide">&#127942; Premio Impatto Sociale</div>
-        </div>
-
-        <!-- Card 4 -->
-        <div class="bg-white border border-gray-200 border-t-4 border-t-gold shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all p-7">
-          <div class="w-12 h-12 rounded-full bg-ibm text-white text-lg font-bold flex items-center justify-center mb-4">MB</div>
-          <div class="text-[17px] font-bold text-navy">Martina Bianchi</div>
-          <div class="text-sm text-gray-500 mb-3">Bologna, Emilia-Romagna</div>
-          <span class="inline-block text-[11px] font-semibold tracking-wide uppercase px-2.5 py-0.5 rounded-sm mb-4 bg-purple-100 text-purple-900">Digital Innovation</span>
-          <blockquote class="text-sm italic text-gray-500 border-l-[3px] border-gold pl-3 leading-relaxed">
-            "Innovare significa avere il coraggio di immaginare ciò che ancora non esiste."
-          </blockquote>
-          <div class="mt-4 text-sm font-semibold text-gold tracking-wide">&#127942; Premio Future Leader</div>
-        </div>
-
-        <!-- Card 5 -->
-        <div class="bg-white border border-gray-200 border-t-4 border-t-gold shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all p-7">
-          <div class="w-12 h-12 rounded-full bg-ibm text-white text-lg font-bold flex items-center justify-center mb-4">EM</div>
-          <div class="text-[17px] font-bold text-navy">Elena Moretti</div>
-          <div class="text-sm text-gray-500 mb-3">Napoli, Campania</div>
-          <span class="inline-block text-[11px] font-semibold tracking-wide uppercase px-2.5 py-0.5 rounded-sm mb-4 bg-blue-100 text-blue-900">AI &amp; Machine Learning</span>
-          <blockquote class="text-sm italic text-gray-500 border-l-[3px] border-gold pl-3 leading-relaxed">
-            "Ho imparato che le barriere nella tecnologia esistono solo finché non decidi di abbatterle."
-          </blockquote>
-          <div class="mt-4 text-sm font-semibold text-gold tracking-wide">&#127942; Premio Ricerca &amp; Sviluppo</div>
-        </div>
-
-        <!-- Card 6 -->
-        <div class="bg-white border border-gray-200 border-t-4 border-t-gold shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all p-7">
-          <div class="w-12 h-12 rounded-full bg-ibm text-white text-lg font-bold flex items-center justify-center mb-4">VC</div>
-          <div class="text-[17px] font-bold text-navy">Valentina Conti</div>
-          <div class="text-sm text-gray-500 mb-3">Firenze, Toscana</div>
-          <span class="inline-block text-[11px] font-semibold tracking-wide uppercase px-2.5 py-0.5 rounded-sm mb-4 bg-green-100 text-green-900">Sostenibilità</span>
-          <blockquote class="text-sm italic text-gray-500 border-l-[3px] border-gold pl-3 leading-relaxed">
-            "La data science ci dà la mappa; la passione ci dà la direzione per un futuro migliore."
-          </blockquote>
-          <div class="mt-4 text-sm font-semibold text-gold tracking-wide">&#127942; Premio Migliore Tesi</div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ══ GALLERIA ══════════════════════════════════════════ -->
-  <section id="galleria" class="py-20 px-6 bg-gray-50">
-    <div class="max-w-6xl mx-auto">
-      <p class="text-[11px] font-semibold tracking-[.18em] uppercase text-ibm mb-3">Progetti Finalisti</p>
-      <h2 class="text-3xl sm:text-4xl font-bold text-navy mb-3">
-        Galleria dell'<span class="text-gold">Innovazione</span>
-      </h2>
-      <p class="text-gray-500 mb-10 max-w-lg">
-        Nove progetti che dimostrano come le giovani donne italiane stiano guidando la trasformazione digitale.
-      </p>
-
-      <!-- Tab bar -->
-      <div class="flex flex-wrap border-b-2 border-gray-200 mb-10 gap-0" id="tab-bar">
-        <button data-cat="all"    class="tab-btn tab-btn-active    px-6 py-3 text-sm transition-colors -mb-[2px]">Tutti</button>
-        <button data-cat="ai"     class="tab-btn tab-btn-inactive  px-6 py-3 text-sm transition-colors -mb-[2px]">&#129504; AI &amp; ML</button>
-        <button data-cat="sost"   class="tab-btn tab-btn-inactive  px-6 py-3 text-sm transition-colors -mb-[2px]">&#127807; Sostenibilità</button>
-        <button data-cat="social" class="tab-btn tab-btn-inactive  px-6 py-3 text-sm transition-colors -mb-[2px]">&#129309; Social Impact</button>
-      </div>
-
-      <!-- Projects grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-grid">
-
-        <!-- AI -->
-        <div data-cat="ai" class="project-card bg-white border border-gray-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all p-6">
-          <span class="text-3xl mb-3 block">&#129504;</span>
-          <div class="text-base font-bold text-navy mb-2 leading-snug">MediAI — Diagnosi Predittiva Oncologica</div>
-          <p class="text-sm text-gray-500 leading-relaxed mb-4">Modello di deep learning per il rilevamento precoce di tumori da immagini radiologiche, con accuratezza superiore al 94%.</p>
-          <div class="flex flex-wrap gap-1.5 mb-3">
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">TensorFlow</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">Python</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">DICOM</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">CNN</span>
-          </div>
-          <p class="text-xs text-gray-400 italic">Team: Giulia Rossi, Università di Milano</p>
-        </div>
-
-        <div data-cat="ai" class="project-card bg-white border border-gray-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all p-6">
-          <span class="text-3xl mb-3 block">&#129504;</span>
-          <div class="text-base font-bold text-navy mb-2 leading-snug">LinguAI — Inclusione Linguistica</div>
-          <p class="text-sm text-gray-500 leading-relaxed mb-4">Sistema NLP per la traduzione automatica in Linguaggio Facile da Leggere (LIS), abbattendo le barriere per persone con disabilità cognitive.</p>
-          <div class="flex flex-wrap gap-1.5 mb-3">
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">NLP</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">BERT</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">FastAPI</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">React</span>
-          </div>
-          <p class="text-xs text-gray-400 italic">Team: Elena Moretti, Università Federico II</p>
-        </div>
-
-        <div data-cat="ai" class="project-card bg-white border border-gray-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all p-6">
-          <span class="text-3xl mb-3 block">&#129504;</span>
-          <div class="text-base font-bold text-navy mb-2 leading-snug">CropMind — Agricoltura di Precisione</div>
-          <p class="text-sm text-gray-500 leading-relaxed mb-4">Piattaforma AI che analizza dati satellitari e sensori IoT per ottimizzare irrigazione, fertilizzazione e raccolta nelle piccole aziende agricole.</p>
-          <div class="flex flex-wrap gap-1.5 mb-3">
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">Satellite API</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">IoT</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">PyTorch</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">GIS</span>
-          </div>
-          <p class="text-xs text-gray-400 italic">Team: Martina Bianchi, Università di Bologna</p>
-        </div>
-
-        <!-- Sostenibilità -->
-        <div data-cat="sost" class="project-card bg-white border border-gray-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all p-6">
-          <span class="text-3xl mb-3 block">&#127807;</span>
-          <div class="text-base font-bold text-navy mb-2 leading-snug">CarbonTrack — Impronta Digitale Zero</div>
-          <p class="text-sm text-gray-500 leading-relaxed mb-4">App mobile che misura e riduce l'impronta di carbonio personale attraverso gamification, suggerimenti personalizzati e challenge di comunità.</p>
-          <div class="flex flex-wrap gap-1.5 mb-3">
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">Flutter</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">Firebase</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">Carbon API</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">UX Design</span>
-          </div>
-          <p class="text-xs text-gray-400 italic">Team: Sofia Ferrari, Politecnico di Torino</p>
-        </div>
-
-        <div data-cat="sost" class="project-card bg-white border border-gray-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all p-6">
-          <span class="text-3xl mb-3 block">&#127807;</span>
-          <div class="text-base font-bold text-navy mb-2 leading-snug">AquaSense — Gestione Idrica Intelligente</div>
-          <p class="text-sm text-gray-500 leading-relaxed mb-4">Rete di sensori low-cost e dashboard open-source per il monitoraggio dei consumi idrici nei condomini, con risparmio medio del 30%.</p>
-          <div class="flex flex-wrap gap-1.5 mb-3">
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">Arduino</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">MQTT</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">Grafana</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">Node.js</span>
-          </div>
-          <p class="text-xs text-gray-400 italic">Team: Valentina Conti, Università di Firenze</p>
-        </div>
-
-        <div data-cat="sost" class="project-card bg-white border border-gray-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all p-6">
-          <span class="text-3xl mb-3 block">&#127807;</span>
-          <div class="text-base font-bold text-navy mb-2 leading-snug">WasteNet — Economia Circolare Digitale</div>
-          <p class="text-sm text-gray-500 leading-relaxed mb-4">Marketplace B2B che connette aziende produttrici di scarti industriali con imprese che li trasformano in nuovi materiali, riducendo il conferimento in discarica.</p>
-          <div class="flex flex-wrap gap-1.5 mb-3">
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">Vue.js</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">PostgreSQL</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">REST API</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">Docker</span>
-          </div>
-          <p class="text-xs text-gray-400 italic">Team: Alessia Greco, Università di Bari</p>
-        </div>
-
-        <!-- Social Impact -->
-        <div data-cat="social" class="project-card bg-white border border-gray-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all p-6">
-          <span class="text-3xl mb-3 block">&#129309;</span>
-          <div class="text-base font-bold text-navy mb-2 leading-snug">SafeHome — Contrasto alla Violenza Domestica</div>
-          <p class="text-sm text-gray-500 leading-relaxed mb-4">App discreta con funzione SOS nascosta e connessione diretta ai centri antiviolenza, sviluppata in collaborazione con associazioni del terzo settore.</p>
-          <div class="flex flex-wrap gap-1.5 mb-3">
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">React Native</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">Geolocation</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">Encryption</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">NGO API</span>
-          </div>
-          <p class="text-xs text-gray-400 italic">Team: Chiara Romano, La Sapienza Roma</p>
-        </div>
-
-        <div data-cat="social" class="project-card bg-white border border-gray-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all p-6">
-          <span class="text-3xl mb-3 block">&#129309;</span>
-          <div class="text-base font-bold text-navy mb-2 leading-snug">BridgeWork — Inclusione Lavorativa</div>
-          <p class="text-sm text-gray-500 leading-relaxed mb-4">Piattaforma di matching intelligente tra persone con disabilità e aziende inclusive, con percorsi di formazione personalizzati e tutoraggio digitale.</p>
-          <div class="flex flex-wrap gap-1.5 mb-3">
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">Next.js</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">ML Matching</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">OAuth 2.0</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">Accessibilità</span>
-          </div>
-          <p class="text-xs text-gray-400 italic">Team: Laura Esposito, Università di Padova</p>
-        </div>
-
-        <div data-cat="social" class="project-card bg-white border border-gray-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all p-6">
-          <span class="text-3xl mb-3 block">&#129309;</span>
-          <div class="text-base font-bold text-navy mb-2 leading-snug">EduBridge — Scuola Digitale Equa</div>
-          <p class="text-sm text-gray-500 leading-relaxed mb-4">Piattaforma e-learning offline-first per studenti in aree remote o con connessione instabile, con contenuti adattivi e supporto multilingue.</p>
-          <div class="flex flex-wrap gap-1.5 mb-3">
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">PWA</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">IndexedDB</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">i18n</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5">Svelte</span>
-          </div>
-          <p class="text-xs text-gray-400 italic">Team: Sara Lombardi, Università di Palermo</p>
-        </div>
-
+      <div id="countdown-done" class="hidden py-10">
+        <h3 class="text-3xl font-black text-nerd">&#127881; Il Gala è iniziato!</h3>
+        <p class="text-gray-500 mt-3">La cerimonia di premiazione è in corso. Goditi ogni momento!</p>
       </div>
     </div>
   </section>
 
   <!-- ══ FOOTER ════════════════════════════════════════════ -->
-  <footer class="bg-navy text-white/70 pt-12 pb-8 px-6">
-    <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-10 pb-8 border-b border-white/10">
-      <div>
-        <div class="text-base font-bold tracking-widest uppercase text-white mb-2">
-          Progetto <span class="text-gold">NERD</span> 2026
+  <footer class="bg-navy text-white/60 pt-12 pb-8 px-6">
+    <div class="max-w-6xl mx-auto">
+      <!-- top row -->
+      <div class="flex flex-col sm:flex-row justify-between gap-8 pb-8 border-b border-white/10">
+        <div>
+          <div class="flex items-baseline gap-1.5 mb-3">
+            <span class="text-nerd font-black text-2xl">NERD<span class="text-gold">?</span></span>
+            <span class="text-white/40 text-xs tracking-widest uppercase">Progetto</span>
+          </div>
+          <p class="text-sm leading-relaxed max-w-xs">
+            Ispirare le giovani donne italiane a diventare protagoniste della rivoluzione STEM.
+          </p>
         </div>
-        <p class="text-sm leading-relaxed">
-          Un'iniziativa nazionale per valorizzare e celebrare<br>
-          le giovani donne italiane nell'innovazione tecnologica.
-        </p>
+        <div class="grid grid-cols-2 gap-x-16 gap-y-2 text-sm">
+          <div class="text-[11px] font-semibold tracking-widest uppercase text-gold col-span-2 mb-1">Gala Nazionale</div>
+          <span>20 Ottobre 2026</span>
+          <span>Milano</span>
+          <span>Auditorium IBM</span>
+          <span>Ore 18:00</span>
+        </div>
       </div>
-      <div>
-        <div class="text-[11px] font-semibold tracking-[.15em] uppercase text-gold mb-3">Informazioni</div>
-        <ul class="space-y-2 text-sm list-none">
-          <li>15 Maggio 2026 — Milano</li>
-          <li>Auditorium IBM Italia</li>
-          <li>Ingresso su invito</li>
-          <li>Live streaming disponibile</li>
-        </ul>
+      <!-- bottom row -->
+      <div class="mt-6 flex flex-wrap justify-between items-center gap-3 text-xs">
+        <span>&copy; 2026 Progetto NERD? — Tutti i diritti riservati</span>
+        <span class="text-gold font-semibold tracking-wide">&#9670; Powered by IBM Bob</span>
       </div>
-    </div>
-    <div class="max-w-6xl mx-auto mt-6 flex flex-wrap justify-between items-center gap-3 text-xs">
-      <span>&copy; 2026 Progetto NERD — Tutti i diritti riservati</span>
-      <span class="text-gold font-semibold tracking-wide">&#9670; Powered by IBM Bob</span>
     </div>
   </footer>
 
   <!-- ══ JAVASCRIPT ════════════════════════════════════════ -->
   <script>
-    // ── Countdown ──────────────────────────────────────────
-    (function () {
-      var target = new Date('2026-05-15T10:00:00');
+    // ── 1. Leader Grid — CSV data ───────────────────────────
+    var LEADERS = [
+      { nome: 'Aya',              regione: 'EmiliaRomagna' },
+      { nome: 'Eleonora',         regione: 'Lombardia' },
+      { nome: 'Giorgia',          regione: 'Liguria' },
+      { nome: 'Nicole',           regione: 'Lombardia' },
+      { nome: 'Sofia',            regione: 'Piemonte' },
+      { nome: 'Lisa',             regione: 'Piemonte' },
+      { nome: 'Marta',            regione: 'Lombardia' },
+      { nome: 'Marika',           regione: 'Lombardia' },
+      { nome: 'Aurora',           regione: 'Sardegna' },
+      { nome: 'Francesca Ludovica', regione: 'Sardegna' },
+      { nome: 'Emma',             regione: 'Sardegna' },
+      { nome: 'Alessandra',       regione: 'Sardegna' },
+      { nome: 'Maddalena',        regione: 'Lazio' },
+      { nome: 'Isratjahan',       regione: 'Lazio' },
+      { nome: 'Eleonora',         regione: 'Lazio' },
+      { nome: 'Isabella',         regione: 'Lazio' },
+      { nome: 'Sofia',            regione: 'Lazio' },
+      { nome: 'Beatrice Andreia', regione: 'Lazio' },
+      { nome: 'Ennaour',          regione: 'Piemonte' },
+      { nome: 'Donatella Pia',    regione: 'Basilicata' },
+      { nome: 'Martina',          regione: 'Basilicata' },
+      { nome: 'Mariarosa',        regione: 'Basilicata' },
+      { nome: 'Melissa',          regione: 'Basilicata' },
+      { nome: 'Sofia',            regione: 'Basilicata' },
+      { nome: 'Marzia',           regione: 'Basilicata' },
+      { nome: 'Teresa',           regione: 'Veneto' },
+      { nome: 'Sanaa',            regione: 'Veneto' },
+      { nome: 'Sofia',            regione: 'Veneto' },
+      { nome: 'Lucia',            regione: 'Veneto' },
+      { nome: 'Ashley',           regione: 'Liguria' },
+      { nome: 'Daria',            regione: 'Liguria' },
+      { nome: 'Elisa',            regione: 'Liguria' },
+      { nome: 'Sara',             regione: 'Sardegna' },
+    ];
+
+    var REGION_LABELS = {
+      EmiliaRomagna: 'Emilia-Romagna',
+      Lombardia:     'Lombardia',
+      Piemonte:      'Piemonte',
+      Lazio:         'Lazio',
+      Sardegna:      'Sardegna',
+      Basilicata:    'Basilicata',
+      Veneto:        'Veneto',
+      Liguria:       'Liguria',
+    };
+
+    // initials helper
+    function initials(name) {
+      return name.split(' ').map(function(w){ return w[0]; }).join('').slice(0,2).toUpperCase();
+    }
+
+    // palette per region (ciclo su 8 colori)
+    var BG_COLORS = [
+      'bg-pink-100 text-pink-800',
+      'bg-blue-100 text-blue-800',
+      'bg-purple-100 text-purple-800',
+      'bg-emerald-100 text-emerald-800',
+      'bg-amber-100 text-amber-800',
+      'bg-sky-100 text-sky-800',
+      'bg-rose-100 text-rose-800',
+      'bg-teal-100 text-teal-800',
+    ];
+    var regionColors = {};
+    var colorIdx = 0;
+    LEADERS.forEach(function(l) {
+      if (!regionColors[l.regione]) {
+        regionColors[l.regione] = BG_COLORS[colorIdx++ % BG_COLORS.length];
+      }
+    });
+
+    function renderLeaders(filter) {
+      var grid = document.getElementById('leader-grid');
+      grid.innerHTML = '';
+      var list = filter === 'all' ? LEADERS : LEADERS.filter(function(l){ return l.regione === filter; });
+      list.forEach(function(l) {
+        var colors = regionColors[l.regione];
+        var card = document.createElement('div');
+        card.className = 'flex flex-col items-center gap-2 p-4 border border-gray-100 bg-white shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all text-center';
+        card.innerHTML =
+          '<div class="w-12 h-12 rounded-full flex items-center justify-center text-sm font-black ' + colors + '">' +
+            initials(l.nome) +
+          '</div>' +
+          '<span class="text-sm font-semibold text-navy leading-tight">' + l.nome + '</span>' +
+          '<span class="text-[10px] tracking-wide text-gray-400 uppercase">' + REGION_LABELS[l.regione] + '</span>';
+        grid.appendChild(card);
+      });
+    }
+
+    renderLeaders('all');
+
+    // Region tab filter
+    document.getElementById('region-tabs').addEventListener('click', function(e) {
+      var btn = e.target.closest('.region-tab');
+      if (!btn) return;
+      document.querySelectorAll('.region-tab').forEach(function(t) {
+        t.classList.remove('active-tab', 'border-nerd', 'bg-nerd', 'text-white');
+        t.classList.add('border-gray-200', 'text-gray-500');
+      });
+      btn.classList.add('active-tab', 'border-nerd', 'bg-nerd', 'text-white');
+      btn.classList.remove('border-gray-200', 'text-gray-500');
+      renderLeaders(btn.getAttribute('data-region'));
+    });
+
+    // ── 2. Muro delle Vincitrici ────────────────────────────
+    var wallGrid  = document.getElementById('wall-grid');
+    var wallEmpty = document.getElementById('wall-empty');
+    var wallInput = document.getElementById('wall-input');
+    var wallBtn   = document.getElementById('wall-btn');
+
+    function addToWall(name) {
+      name = name.trim();
+      if (!name) return;
+      wallEmpty.style.display = 'none';
+
+      var badge = document.createElement('span');
+      badge.className = 'badge-wall-item new-entry';
+      badge.textContent = '✦ ' + name;
+      wallGrid.prepend(badge);
+
+      // animate: remove new-entry class after 800ms to settle style
+      setTimeout(function() { badge.classList.remove('new-entry'); }, 800);
+      wallInput.value = '';
+      wallInput.focus();
+    }
+
+    wallBtn.addEventListener('click', function() { addToWall(wallInput.value); });
+    wallInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') addToWall(wallInput.value);
+    });
+
+    // ── 3. Countdown ────────────────────────────────────────
+    (function() {
+      var target = new Date('2026-10-20T18:00:00');
       function pad(n) { return String(Math.floor(n)).padStart(2, '0'); }
       function tick() {
         var diff = target - new Date();
@@ -410,30 +507,6 @@
       }
       tick();
       setInterval(tick, 1000);
-    }());
-
-    // ── Galleria Tab Filter ─────────────────────────────────
-    (function () {
-      var tabs  = document.querySelectorAll('.tab-btn');
-      var cards = document.querySelectorAll('.project-card');
-      tabs.forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var cat = btn.getAttribute('data-cat');
-          tabs.forEach(function (t) {
-            t.classList.remove('tab-btn-active');
-            t.classList.add('tab-btn-inactive');
-          });
-          btn.classList.remove('tab-btn-inactive');
-          btn.classList.add('tab-btn-active');
-          cards.forEach(function (card) {
-            if (cat === 'all' || card.getAttribute('data-cat') === cat) {
-              card.classList.remove('hidden');
-            } else {
-              card.classList.add('hidden');
-            }
-          });
-        });
-      });
     }());
   </script>
 
