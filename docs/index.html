@@ -56,7 +56,7 @@
       </a>
       <ul class="hidden sm:flex gap-8 list-none">
         <li><a href="#successi"  class="text-sm text-gray-300 hover:text-nerd transition-colors">Successi</a></li>
-        <li><a href="#leader"    class="text-sm text-gray-300 hover:text-nerd transition-colors">Le Leader</a></li>
+        <li><a href="#leader"    class="text-sm text-gray-300 hover:text-nerd transition-colors">Le Protagoniste</a></li>
         <li><a href="#muro"      class="text-sm text-gray-300 hover:text-nerd transition-colors">Muro</a></li>
         <li><a href="#countdown" class="text-sm text-gray-300 hover:text-nerd transition-colors">Gala</a></li>
       </ul>
@@ -81,7 +81,7 @@
 
       <h1 class="text-4xl sm:text-6xl font-black leading-[1.05] tracking-tight mb-6">
         <span class="text-white">Celebriamo le</span><br>
-        <span class="text-nerd">34 Leader STEM</span><br>
+        <span class="text-nerd">34 Protagoniste STEM</span><br>
         <span class="text-white">dell'edizione 2026</span>
       </h1>
 
@@ -96,7 +96,7 @@
       <div class="flex flex-wrap justify-center gap-8 sm:gap-16">
         <div class="text-center">
           <span class="block font-mono text-4xl font-bold text-nerd leading-none">34</span>
-          <span class="block text-[11px] tracking-widest uppercase text-white/50 mt-1.5">Leader STEM</span>
+          <span class="block text-[11px] tracking-widest uppercase text-white/50 mt-1.5">Protagoniste STEM</span>
         </div>
         <div class="text-center">
           <span class="block font-mono text-4xl font-bold text-gold leading-none">8</span>
@@ -217,10 +217,10 @@
     <div class="max-w-6xl mx-auto">
       <p class="section-eyebrow text-nerd">STEM Hall of Fame 2026</p>
       <h2 class="section-heading text-navy">
-        Le <span class="text-nerd">34 Leader</span> di quest'anno
+        Le <span class="text-nerd">34 Protagoniste</span> di quest'anno
       </h2>
       <p class="text-gray-500 mb-12 max-w-xl leading-relaxed">
-        Da Lombardia a Sardegna, dalla Basilicata al Veneto: ragazze che hanno sfidato i limiti, imparato il codice e costruito il futuro.
+        Da Lombardia a Sardegna, dalla Basilicata al Veneto: ragazze che hanno partecipato al Progetto NERD?, imparato il codice e dimostrato che la tecnologia è anche loro.
       </p>
 
       <!-- Region filter tabs -->
@@ -357,7 +357,7 @@
 
   <!-- ══ JAVASCRIPT ════════════════════════════════════════ -->
   <script>
-    // ── 1. Leader Grid — CSV data ───────────────────────────
+    // ── 1. Studentesse Grid — CSV data ───────────────────────────
     var LEADERS = [
       { nome: 'Aya',              regione: 'EmiliaRomagna' },
       { nome: 'Eleonora',         regione: 'Lombardia' },
@@ -429,7 +429,7 @@
       }
     });
 
-    function renderLeaders(filter) {
+    function renderStudentesses(filter) {
       var grid = document.getElementById('leader-grid');
       grid.innerHTML = '';
       var list = filter === 'all' ? LEADERS : LEADERS.filter(function(l){ return l.regione === filter; });
