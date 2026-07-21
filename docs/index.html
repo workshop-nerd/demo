@@ -1,479 +1,105 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🎓 Maturità Survival Kit</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { poppins: ['Poppins', 'sans-serif'] },
-          colors: {
-            italiano:   '#E74C3C',
-            matematica: '#3498DB',
-            storia:     '#E67E22',
-            scienze:    '#27AE60',
-            inglese:    '#8E44AD',
-          },
-          keyframes: {
-            pulseRed: {
-              '0%,100%': { boxShadow: '0 0 0 0 rgba(231,76,60,0.5)', transform: 'scale(1)' },
-              '50%':     { boxShadow: '0 0 0 18px rgba(231,76,60,0)',  transform: 'scale(1.04)' },
-            },
-            breathe: {
-              '0%,100%': { transform: 'scale(1)' },
-              '50%':     { transform: 'scale(1.1)' },
-            },
-          },
-          animation: {
-            pulseRed: 'pulseRed 2s ease-in-out infinite',
-            breathe:  'breathe 1.4s ease-in-out infinite',
-          },
-        },
-      },
-    };
-  </script>
+  <title>Workshop Progetto Nerd 2026</title>
   <style>
-    body { font-family: 'Poppins', sans-serif; }
-    .tab-panel { display: none; }
-    .tab-panel.active { display: block; }
-    .quote-card { transition: opacity 0.35s ease; }
-    .quote-card.fade { opacity: 0; }
-    li.checked span { text-decoration: line-through; opacity: 0.5; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: #f0f2f5;
+      color: #1a1a2e;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e5ea;
+      border-radius: 16px;
+      max-width: 560px;
+      width: 100%;
+      padding: 3rem 2.5rem 2.5rem;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #eef2ff;
+      color: #4f46e5;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.9rem;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      line-height: 1.25;
+      color: #1a1a2e;
+      margin-bottom: 1rem;
+    }
+
+    .divider {
+      width: 48px;
+      height: 3px;
+      background: #4f46e5;
+      border-radius: 2px;
+      margin: 0 auto 1.5rem;
+    }
+
+    p {
+      font-size: 1rem;
+      color: #5a6072;
+      line-height: 1.65;
+    }
+
+    .status {
+      margin-top: 2rem;
+      padding: 1rem 1.25rem;
+      background: #f8f9fc;
+      border: 1px solid #e2e5ea;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      color: #3d4153;
+    }
+
+    .dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #f59e0b;
+      margin-right: 0.4rem;
+      vertical-align: middle;
+      animation: blink 1.4s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.25; }
+    }
   </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col text-gray-800">
-
-  <!-- ===== HEADER ===== -->
-  <header class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white text-center py-10 px-4 shadow-lg">
-    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">🎓 Maturità Survival Kit</h1>
-    <p class="mt-2 text-base md:text-lg opacity-90">Il tuo compagno di studio per superare la maturità con serenità</p>
-  </header>
-
-  <!-- ===== PANIC OVERLAY ===== -->
-  <div id="panicOverlay"
-       class="hidden fixed inset-0 bg-gray-950/90 z-50 flex flex-col items-center justify-center text-center px-6"
-       role="dialog" aria-modal="true" aria-label="Esercizio di respirazione">
-
-    <button id="panicClose"
-            class="absolute top-5 right-6 bg-white/10 hover:bg-white/25 text-white rounded-full w-11 h-11 text-xl font-bold transition"
-            aria-label="Chiudi">✕</button>
-
-    <!-- Timer view -->
-    <div id="panicTimerView">
-      <div id="panicCount"
-           class="text-[9rem] leading-none font-extrabold text-red-400 animate-breathe select-none">10</div>
-      <div id="panicMsg"
-           class="mt-4 text-2xl md:text-3xl font-semibold text-white min-h-[2.5rem]">Respira...</div>
-      <p class="mt-2 text-gray-400 text-sm">Segui le istruzioni — sei al sicuro 🌿</p>
-    </div>
-
-    <!-- Done view -->
-    <div id="panicDoneView" class="hidden flex-col items-center gap-4">
-      <div class="text-7xl">💪</div>
-      <p class="text-white text-2xl font-bold">Ora stai meglio!<br>Torna ai tuoi studi.</p>
+<body>
+  <div class="card">
+    <span class="badge">Coming soon</span>
+    <h1>Workshop Progetto Nerd 2026</h1>
+    <div class="divider"></div>
+    <p>Stiamo costruendo qualcosa di interessante.<br>Torna presto per scoprirlo.</p>
+    <div class="status">
+      <span class="dot"></span>
+      Work in progress &mdash; Bob è al lavoro
     </div>
   </div>
-
-  <!-- ===== MAIN ===== -->
-  <main class="flex-1 max-w-3xl w-full mx-auto px-4 py-8 flex flex-col gap-8">
-
-    <!-- PANIC BUTTON CARD -->
-    <section class="bg-white rounded-2xl shadow-md p-6 text-center">
-      <h2 class="text-lg font-bold mb-1 flex items-center justify-center gap-2">🚨 Panico da esame?</h2>
-      <p class="text-gray-500 text-sm mb-5">Premi il bottone, chiudi gli occhi e segui la respirazione guidata per 10 secondi.</p>
-      <button id="panicBtn"
-              onclick="startPanic()"
-              class="animate-pulseRed bg-red-500 hover:bg-red-600 active:scale-95 text-white font-extrabold text-2xl px-12 py-4 rounded-full shadow-lg transition-transform cursor-pointer">
-        🚨 PANIC!
-      </button>
-    </section>
-
-    <!-- TABS CARD -->
-    <section class="bg-white rounded-2xl shadow-md p-6">
-      <h2 class="text-lg font-bold mb-4">📚 Ripasso per materia</h2>
-
-      <!-- Tab buttons -->
-      <nav class="flex flex-wrap gap-2 mb-5" role="tablist">
-        <button class="tab-btn active rounded-full px-4 py-2 text-sm font-semibold border-2 transition-all cursor-pointer"
-                data-subject="italiano"   onclick="switchTab('italiano')"   role="tab">📝 Italiano</button>
-        <button class="tab-btn rounded-full px-4 py-2 text-sm font-semibold border-2 transition-all cursor-pointer"
-                data-subject="matematica" onclick="switchTab('matematica')" role="tab">➗ Matematica</button>
-        <button class="tab-btn rounded-full px-4 py-2 text-sm font-semibold border-2 transition-all cursor-pointer"
-                data-subject="storia"     onclick="switchTab('storia')"     role="tab">🏛️ Storia</button>
-        <button class="tab-btn rounded-full px-4 py-2 text-sm font-semibold border-2 transition-all cursor-pointer"
-                data-subject="scienze"    onclick="switchTab('scienze')"    role="tab">🔬 Scienze</button>
-        <button class="tab-btn rounded-full px-4 py-2 text-sm font-semibold border-2 transition-all cursor-pointer"
-                data-subject="inglese"    onclick="switchTab('inglese')"    role="tab">🌍 Inglese</button>
-      </nav>
-
-      <!-- ITALIANO -->
-      <div class="tab-panel active" id="panel-italiano" role="tabpanel">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-gray-200">
-          <h3 class="font-bold text-italiano">📝 Italiano — Argomenti chiave</h3>
-          <div class="flex flex-col items-end gap-1">
-            <div class="w-40 bg-gray-200 rounded-full h-2.5 overflow-hidden">
-              <div id="progress-italiano" class="h-2.5 rounded-full bg-italiano transition-all duration-500" style="width:0%"></div>
-            </div>
-            <span id="label-italiano" class="text-xs text-gray-400">0 / 8 completati</span>
-          </div>
-        </div>
-        <ul class="flex flex-col gap-2" id="checklist-italiano">
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-italiano cursor-pointer shrink-0" id="it-1"/><span class="text-sm">Analisi del testo poetico e narrativo</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-italiano cursor-pointer shrink-0" id="it-2"/><span class="text-sm">Dante Alighieri — Divina Commedia (Inferno)</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-italiano cursor-pointer shrink-0" id="it-3"/><span class="text-sm">Giovanni Verga e il Verismo</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-italiano cursor-pointer shrink-0" id="it-4"/><span class="text-sm">Gabriele D'Annunzio e l'Estetismo</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-italiano cursor-pointer shrink-0" id="it-5"/><span class="text-sm">Luigi Pirandello — relativismo e umorismo</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-italiano cursor-pointer shrink-0" id="it-6"/><span class="text-sm">Italo Svevo e la coscienza moderna</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-italiano cursor-pointer shrink-0" id="it-7"/><span class="text-sm">Neorealismo: Pavese, Calvino, Fenoglio</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-italiano cursor-pointer shrink-0" id="it-8"/><span class="text-sm">Tipologie di scrittura: saggio, articolo, tema</span></li>
-        </ul>
-        <button onclick="resetChecklist('italiano')" class="mt-4 text-xs text-gray-400 border border-gray-200 rounded-full px-4 py-1.5 hover:bg-gray-100 transition cursor-pointer">↺ Azzera progresso</button>
-      </div>
-
-      <!-- MATEMATICA -->
-      <div class="tab-panel" id="panel-matematica" role="tabpanel">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-gray-200">
-          <h3 class="font-bold text-matematica">➗ Matematica — Argomenti chiave</h3>
-          <div class="flex flex-col items-end gap-1">
-            <div class="w-40 bg-gray-200 rounded-full h-2.5 overflow-hidden">
-              <div id="progress-matematica" class="h-2.5 rounded-full bg-matematica transition-all duration-500" style="width:0%"></div>
-            </div>
-            <span id="label-matematica" class="text-xs text-gray-400">0 / 8 completati</span>
-          </div>
-        </div>
-        <ul class="flex flex-col gap-2" id="checklist-matematica">
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-matematica cursor-pointer shrink-0" id="ma-1"/><span class="text-sm">Limiti e continuità di una funzione</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-matematica cursor-pointer shrink-0" id="ma-2"/><span class="text-sm">Derivate: regole e applicazioni</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-matematica cursor-pointer shrink-0" id="ma-3"/><span class="text-sm">Studio di funzione completo</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-matematica cursor-pointer shrink-0" id="ma-4"/><span class="text-sm">Integrali indefiniti e definiti</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-matematica cursor-pointer shrink-0" id="ma-5"/><span class="text-sm">Equazioni differenziali (primo ordine)</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-matematica cursor-pointer shrink-0" id="ma-6"/><span class="text-sm">Geometria analitica: coniche</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-matematica cursor-pointer shrink-0" id="ma-7"/><span class="text-sm">Probabilità e statistica</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-matematica cursor-pointer shrink-0" id="ma-8"/><span class="text-sm">Numeri complessi e trigonometria</span></li>
-        </ul>
-        <button onclick="resetChecklist('matematica')" class="mt-4 text-xs text-gray-400 border border-gray-200 rounded-full px-4 py-1.5 hover:bg-gray-100 transition cursor-pointer">↺ Azzera progresso</button>
-      </div>
-
-      <!-- STORIA -->
-      <div class="tab-panel" id="panel-storia" role="tabpanel">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-gray-200">
-          <h3 class="font-bold text-storia">🏛️ Storia — Argomenti chiave</h3>
-          <div class="flex flex-col items-end gap-1">
-            <div class="w-40 bg-gray-200 rounded-full h-2.5 overflow-hidden">
-              <div id="progress-storia" class="h-2.5 rounded-full bg-storia transition-all duration-500" style="width:0%"></div>
-            </div>
-            <span id="label-storia" class="text-xs text-gray-400">0 / 8 completati</span>
-          </div>
-        </div>
-        <ul class="flex flex-col gap-2" id="checklist-storia">
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-storia cursor-pointer shrink-0" id="st-1"/><span class="text-sm">La Belle Époque e le tensioni pre-belliche</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-storia cursor-pointer shrink-0" id="st-2"/><span class="text-sm">Prima Guerra Mondiale — cause, fasi, esiti</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-storia cursor-pointer shrink-0" id="st-3"/><span class="text-sm">Rivoluzione Russa e nascita dell'URSS</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-storia cursor-pointer shrink-0" id="st-4"/><span class="text-sm">Fascismo e Nazismo — origini e ideologia</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-storia cursor-pointer shrink-0" id="st-5"/><span class="text-sm">Seconda Guerra Mondiale — cause, fasi, Shoah</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-storia cursor-pointer shrink-0" id="st-6"/><span class="text-sm">Guerra Fredda e bipolarismo</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-storia cursor-pointer shrink-0" id="st-7"/><span class="text-sm">Decolonizzazione e nascita del Terzo Mondo</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-storia cursor-pointer shrink-0" id="st-8"/><span class="text-sm">Italia repubblicana: Costituzione e anni del boom</span></li>
-        </ul>
-        <button onclick="resetChecklist('storia')" class="mt-4 text-xs text-gray-400 border border-gray-200 rounded-full px-4 py-1.5 hover:bg-gray-100 transition cursor-pointer">↺ Azzera progresso</button>
-      </div>
-
-      <!-- SCIENZE -->
-      <div class="tab-panel" id="panel-scienze" role="tabpanel">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-gray-200">
-          <h3 class="font-bold text-scienze">🔬 Scienze — Argomenti chiave</h3>
-          <div class="flex flex-col items-end gap-1">
-            <div class="w-40 bg-gray-200 rounded-full h-2.5 overflow-hidden">
-              <div id="progress-scienze" class="h-2.5 rounded-full bg-scienze transition-all duration-500" style="width:0%"></div>
-            </div>
-            <span id="label-scienze" class="text-xs text-gray-400">0 / 8 completati</span>
-          </div>
-        </div>
-        <ul class="flex flex-col gap-2" id="checklist-scienze">
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-scienze cursor-pointer shrink-0" id="sc-1"/><span class="text-sm">DNA, replicazione e sintesi proteica</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-scienze cursor-pointer shrink-0" id="sc-2"/><span class="text-sm">Genetica mendeliana e mutazioni</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-scienze cursor-pointer shrink-0" id="sc-3"/><span class="text-sm">Biotecnologie: PCR, clonazione, OGM</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-scienze cursor-pointer shrink-0" id="sc-4"/><span class="text-sm">Metabolismo cellulare: fotosintesi e respirazione</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-scienze cursor-pointer shrink-0" id="sc-5"/><span class="text-sm">Struttura della Terra e tettonica a placche</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-scienze cursor-pointer shrink-0" id="sc-6"/><span class="text-sm">Chimica organica: idrocarburi e gruppi funzionali</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-scienze cursor-pointer shrink-0" id="sc-7"/><span class="text-sm">Cambiamenti climatici e sostenibilità ambientale</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-scienze cursor-pointer shrink-0" id="sc-8"/><span class="text-sm">Sistema nervoso e sistema endocrino</span></li>
-        </ul>
-        <button onclick="resetChecklist('scienze')" class="mt-4 text-xs text-gray-400 border border-gray-200 rounded-full px-4 py-1.5 hover:bg-gray-100 transition cursor-pointer">↺ Azzera progresso</button>
-      </div>
-
-      <!-- INGLESE -->
-      <div class="tab-panel" id="panel-inglese" role="tabpanel">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-gray-200">
-          <h3 class="font-bold text-inglese">🌍 Inglese — Argomenti chiave</h3>
-          <div class="flex flex-col items-end gap-1">
-            <div class="w-40 bg-gray-200 rounded-full h-2.5 overflow-hidden">
-              <div id="progress-inglese" class="h-2.5 rounded-full bg-inglese transition-all duration-500" style="width:0%"></div>
-            </div>
-            <span id="label-inglese" class="text-xs text-gray-400">0 / 8 completati</span>
-          </div>
-        </div>
-        <ul class="flex flex-col gap-2" id="checklist-inglese">
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-inglese cursor-pointer shrink-0" id="en-1"/><span class="text-sm">The Victorian Age — society and literature</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-inglese cursor-pointer shrink-0" id="en-2"/><span class="text-sm">Charles Dickens — Oliver Twist, Hard Times</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-inglese cursor-pointer shrink-0" id="en-3"/><span class="text-sm">Oscar Wilde — The Picture of Dorian Gray</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-inglese cursor-pointer shrink-0" id="en-4"/><span class="text-sm">Modernism — stream of consciousness</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-inglese cursor-pointer shrink-0" id="en-5"/><span class="text-sm">James Joyce — Dubliners, Ulysses</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-inglese cursor-pointer shrink-0" id="en-6"/><span class="text-sm">George Orwell — 1984, Animal Farm</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-inglese cursor-pointer shrink-0" id="en-7"/><span class="text-sm">The American Dream in literature</span></li>
-          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-inglese cursor-pointer shrink-0" id="en-8"/><span class="text-sm">Writing skills: essay, summary, letter</span></li>
-        </ul>
-        <button onclick="resetChecklist('inglese')" class="mt-4 text-xs text-gray-400 border border-gray-200 rounded-full px-4 py-1.5 hover:bg-gray-100 transition cursor-pointer">↺ Azzera progresso</button>
-      </div>
-
-    </section>
-
-    <!-- QUOTES SECTION -->
-    <section>
-      <h2 class="text-lg font-bold mb-3">💬 Citazione motivazionale</h2>
-      <div id="quoteCard"
-           class="quote-card bg-gradient-to-br from-pink-400 via-fuchsia-500 to-purple-600 text-white rounded-2xl shadow-md p-8 min-h-36 flex flex-col items-center justify-center text-center">
-        <p id="quoteText" class="text-base md:text-lg font-semibold leading-relaxed mb-3">Caricamento...</p>
-        <p id="quoteAuthor" class="text-sm italic opacity-85"></p>
-      </div>
-      <div class="text-center mt-4">
-        <button onclick="showNewQuote()"
-                class="bg-gradient-to-r from-indigo-500 to-purple-600 hover:opacity-90 active:scale-95 text-white font-semibold text-sm px-8 py-3 rounded-full shadow transition cursor-pointer">
-          ✨ Nuova citazione
-        </button>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- ===== FOOTER ===== -->
-  <footer class="text-center py-5 px-4 border-t border-gray-200 text-gray-400 text-xs">
-    🎓 Maturità Survival Kit — Buona fortuna! &nbsp;|&nbsp; Made with <strong>IBM Bob</strong>
-  </footer>
-
-  <!-- ===== JAVASCRIPT ===== -->
-  <script>
-    /* ──────────────────────────────────────
-       TAB COLOURS (applied via JS since Tailwind CDN needs safelist)
-    ────────────────────────────────────── */
-    const SUBJECT_COLORS = {
-      italiano:   { bg: '#E74C3C', border: '#E74C3C', text: '#E74C3C' },
-      matematica: { bg: '#3498DB', border: '#3498DB', text: '#3498DB' },
-      storia:     { bg: '#E67E22', border: '#E67E22', text: '#E67E22' },
-      scienze:    { bg: '#27AE60', border: '#27AE60', text: '#27AE60' },
-      inglese:    { bg: '#8E44AD', border: '#8E44AD', text: '#8E44AD' },
-    };
-
-    const SUBJECTS = Object.keys(SUBJECT_COLORS);
-
-    function applyTabStyles() {
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        const s = btn.dataset.subject;
-        const c = SUBJECT_COLORS[s];
-        if (btn.classList.contains('active')) {
-          btn.style.backgroundColor = c.bg;
-          btn.style.borderColor     = c.border;
-          btn.style.color           = '#fff';
-        } else {
-          btn.style.backgroundColor = '#fff';
-          btn.style.borderColor     = c.border;
-          btn.style.color           = c.text;
-        }
-      });
-    }
-
-    /* ──────────────────────────────────────
-       TABS
-    ────────────────────────────────────── */
-    function switchTab(subject) {
-      SUBJECTS.forEach(s => {
-        document.getElementById('panel-' + s).classList.toggle('active', s === subject);
-      });
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.subject === subject);
-      });
-      applyTabStyles();
-    }
-
-    applyTabStyles(); // init
-
-    /* ──────────────────────────────────────
-       CHECKLIST — localStorage persistence
-    ────────────────────────────────────── */
-    function storageKey(subject) { return 'msk_' + subject; }
-
-    function loadChecklist(subject) {
-      const saved = JSON.parse(localStorage.getItem(storageKey(subject)) || '{}');
-      document.querySelectorAll('#checklist-' + subject + ' input[type="checkbox"]').forEach(cb => {
-        if (saved[cb.id]) {
-          cb.checked = true;
-          cb.closest('li').classList.add('checked');
-        }
-      });
-      updateProgress(subject);
-    }
-
-    function saveChecklist(subject) {
-      const state = {};
-      document.querySelectorAll('#checklist-' + subject + ' input[type="checkbox"]').forEach(cb => {
-        state[cb.id] = cb.checked;
-      });
-      localStorage.setItem(storageKey(subject), JSON.stringify(state));
-      updateProgress(subject);
-    }
-
-    function updateProgress(subject) {
-      const items = document.querySelectorAll('#checklist-' + subject + ' input[type="checkbox"]');
-      const total = items.length;
-      const done  = Array.from(items).filter(cb => cb.checked).length;
-      const pct   = total ? Math.round(done / total * 100) : 0;
-      document.getElementById('progress-' + subject).style.width = pct + '%';
-      document.getElementById('label-' + subject).textContent    = done + ' / ' + total + ' completati';
-    }
-
-    function resetChecklist(subject) {
-      document.querySelectorAll('#checklist-' + subject + ' input[type="checkbox"]').forEach(cb => {
-        cb.checked = false;
-        cb.closest('li').classList.remove('checked');
-      });
-      localStorage.removeItem(storageKey(subject));
-      updateProgress(subject);
-    }
-
-    SUBJECTS.forEach(subject => {
-      loadChecklist(subject);
-      // checkbox direct change
-      document.querySelectorAll('#checklist-' + subject + ' input[type="checkbox"]').forEach(cb => {
-        cb.addEventListener('change', function () {
-          this.closest('li').classList.toggle('checked', this.checked);
-          saveChecklist(subject);
-        });
-      });
-      // entire row click
-      document.querySelectorAll('#checklist-' + subject + ' li').forEach(li => {
-        li.addEventListener('click', function (e) {
-          if (e.target.tagName === 'INPUT') return;
-          const cb = this.querySelector('input');
-          cb.checked = !cb.checked;
-          this.classList.toggle('checked', cb.checked);
-          saveChecklist(subject);
-        });
-      });
-    });
-
-    /* ──────────────────────────────────────
-       PANIC BUTTON
-    ────────────────────────────────────── */
-    const breathingSteps = [
-      'Inspira lentamente... 🌬️',
-      'Inspira ancora... 🌬️',
-      'Trattieni il respiro... ⏸️',
-      'Trattieni ancora... ⏸️',
-      'Espira piano piano... 😮‍💨',
-      'Espira ancora... 😮‍💨',
-      'Respira normalmente 🌿',
-      'Senti la calma arrivare ✨',
-      'Quasi finito... sei forte 💪',
-      'Ultimo secondo — ottimo! 🌟',
-    ];
-
-    let panicInterval = null;
-    let panicTimeout  = null;
-
-    function startPanic() {
-      const overlay   = document.getElementById('panicOverlay');
-      const countEl   = document.getElementById('panicCount');
-      const msgEl     = document.getElementById('panicMsg');
-      const timerView = document.getElementById('panicTimerView');
-      const doneView  = document.getElementById('panicDoneView');
-
-      clearInterval(panicInterval);
-      clearTimeout(panicTimeout);
-
-      timerView.classList.remove('hidden');
-      doneView.classList.add('hidden');
-      doneView.classList.remove('flex');
-
-      let seconds = 10;
-      countEl.textContent = seconds;
-      msgEl.textContent   = breathingSteps[10 - seconds];
-
-      overlay.classList.remove('hidden');
-      overlay.classList.add('flex');
-
-      panicInterval = setInterval(() => {
-        seconds--;
-        if (seconds <= 0) {
-          clearInterval(panicInterval);
-          timerView.classList.add('hidden');
-          doneView.classList.remove('hidden');
-          doneView.classList.add('flex');
-          panicTimeout = setTimeout(closePanic, 3000);
-          return;
-        }
-        countEl.textContent = seconds;
-        msgEl.textContent   = breathingSteps[10 - seconds];
-      }, 1000);
-    }
-
-    function closePanic() {
-      clearInterval(panicInterval);
-      clearTimeout(panicTimeout);
-      const overlay = document.getElementById('panicOverlay');
-      overlay.classList.add('hidden');
-      overlay.classList.remove('flex');
-    }
-
-    document.getElementById('panicClose').addEventListener('click', closePanic);
-    document.getElementById('panicOverlay').addEventListener('click', function (e) {
-      if (e.target === this) closePanic();
-    });
-
-    /* ──────────────────────────────────────
-       QUOTES
-    ────────────────────────────────────── */
-    const quotes = [
-      { text: 'Il successo è la somma di piccoli sforzi ripetuti ogni giorno.',            author: 'Robert Collier' },
-      { text: 'Ogni esperto era prima un principiante.',                                    author: 'Helen Hayes' },
-      { text: 'Non importa quanto sei lento, purché non ti fermi.',                         author: 'Confucio' },
-      { text: 'La mente non è un vaso da riempire, ma un fuoco da accendere.',              author: 'Plutarco' },
-      { text: 'Studia come se dovessi vivere per sempre, vivi come se dovessi morire domani.', author: 'Mahatma Gandhi' },
-      { text: 'The secret of getting ahead is getting started.',                             author: 'Mark Twain' },
-      { text: 'Il fallimento è l\'opportunità di ricominciare in modo più intelligente.',    author: 'Henry Ford' },
-      { text: 'An investment in knowledge pays the best interest.',                          author: 'Benjamin Franklin' },
-      { text: 'La conoscenza è l\'unica cosa che non ti può essere tolta.',                  author: 'Nelson Mandela' },
-      { text: 'It always seems impossible until it\'s done.',                                author: 'Nelson Mandela' },
-      { text: 'L\'unico modo per fare un ottimo lavoro è amare ciò che fai.',               author: 'Steve Jobs' },
-      { text: 'Believe you can and you\'re halfway there.',                                   author: 'Theodore Roosevelt' },
-      { text: 'La difficoltà è ciò che sveglia il genio.',                                   author: 'Nassim Nicholas Taleb' },
-      { text: 'You don\'t have to be great to start, but you have to start to be great.',    author: 'Zig Ziglar' },
-      { text: 'Ogni libro che leggi è un\'esperienza che vivi.',                              author: 'Anonimo' },
-      { text: 'Non smettere mai di imparare, perché la vita non smette mai di insegnare.',   author: 'Anonimo' },
-      { text: 'The more that you read, the more things you will know.',                      author: 'Dr. Seuss' },
-    ];
-
-    let lastQuoteIndex = -1;
-
-    function showNewQuote() {
-      const card = document.getElementById('quoteCard');
-      card.classList.add('fade');
-      setTimeout(() => {
-        let idx;
-        do { idx = Math.floor(Math.random() * quotes.length); } while (idx === lastQuoteIndex);
-        lastQuoteIndex = idx;
-        const q = quotes[idx];
-        document.getElementById('quoteText').textContent   = '\u201C' + q.text + '\u201D';
-        document.getElementById('quoteAuthor').textContent = '\u2014 ' + q.author;
-        card.classList.remove('fade');
-      }, 350);
-    }
-
-    showNewQuote();
-  </script>
 </body>
 </html>
