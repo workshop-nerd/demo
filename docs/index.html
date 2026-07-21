@@ -1,514 +1,479 @@
 <!DOCTYPE html>
-<html lang="it" class="scroll-smooth">
+<html lang="it">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>STEM Hall of Fame — Progetto NERD? 2026</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <title>🎓 Maturità Survival Kit</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: {
-            sans: ['"IBM Plex Sans"', 'system-ui', 'sans-serif'],
-            mono: ['"IBM Plex Mono"', 'monospace'],
-          },
+          fontFamily: { poppins: ['Poppins', 'sans-serif'] },
           colors: {
-            navy:   '#001141',
-            ibm:    '#0F62FE',
-            gold:   '#C9A84C',
-            nerd:   '#FF2D78',
-            'nerd-dark': '#C4005A',
-            'nerd-light': '#FFE0EC',
+            italiano:   '#E74C3C',
+            matematica: '#3498DB',
+            storia:     '#E67E22',
+            scienze:    '#27AE60',
+            inglese:    '#8E44AD',
           },
-        }
-      }
-    }
+          keyframes: {
+            pulseRed: {
+              '0%,100%': { boxShadow: '0 0 0 0 rgba(231,76,60,0.5)', transform: 'scale(1)' },
+              '50%':     { boxShadow: '0 0 0 18px rgba(231,76,60,0)',  transform: 'scale(1.04)' },
+            },
+            breathe: {
+              '0%,100%': { transform: 'scale(1)' },
+              '50%':     { transform: 'scale(1.1)' },
+            },
+          },
+          animation: {
+            pulseRed: 'pulseRed 2s ease-in-out infinite',
+            breathe:  'breathe 1.4s ease-in-out infinite',
+          },
+        },
+      },
+    };
   </script>
-  <style type="text/tailwindcss">
-    .badge-wall-item {
-      @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold
-             bg-nerd-light text-nerd-dark border border-nerd/30
-             transition-all duration-300;
-    }
-    .badge-wall-item.new-entry {
-      @apply bg-nerd text-white border-nerd scale-110;
-    }
-    .section-eyebrow {
-      @apply text-[11px] font-semibold tracking-[.2em] uppercase mb-3;
-    }
-    .section-heading {
-      @apply text-3xl sm:text-4xl font-bold leading-tight mb-4;
-    }
+  <style>
+    body { font-family: 'Poppins', sans-serif; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .quote-card { transition: opacity 0.35s ease; }
+    .quote-card.fade { opacity: 0; }
+    li.checked span { text-decoration: line-through; opacity: 0.5; }
   </style>
 </head>
-<body class="font-sans bg-white text-gray-900 antialiased">
+<body class="bg-gray-100 min-h-screen flex flex-col text-gray-800">
 
-  <!-- ══ NAV ══════════════════════════════════════════════ -->
-  <nav class="sticky top-0 z-50 bg-navy border-b-[3px] border-nerd">
-    <div class="max-w-6xl mx-auto px-6 flex items-center justify-between h-14">
-      <a href="#hero" class="flex items-center gap-2">
-        <span class="text-nerd font-black text-lg tracking-tight">NERD<span class="text-gold">?</span></span>
-        <span class="hidden sm:inline text-xs font-semibold tracking-widest text-white/70 uppercase">STEM Hall of Fame 2026</span>
-      </a>
-      <ul class="hidden sm:flex gap-8 list-none">
-        <li><a href="#successi"  class="text-sm text-gray-300 hover:text-nerd transition-colors">Successi</a></li>
-        <li><a href="#leader"    class="text-sm text-gray-300 hover:text-nerd transition-colors">Le Protagoniste</a></li>
-        <li><a href="#muro"      class="text-sm text-gray-300 hover:text-nerd transition-colors">Muro</a></li>
-        <li><a href="#countdown" class="text-sm text-gray-300 hover:text-nerd transition-colors">Gala</a></li>
-      </ul>
+  <!-- ===== HEADER ===== -->
+  <header class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white text-center py-10 px-4 shadow-lg">
+    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">🎓 Maturità Survival Kit</h1>
+    <p class="mt-2 text-base md:text-lg opacity-90">Il tuo compagno di studio per superare la maturità con serenità</p>
+  </header>
+
+  <!-- ===== PANIC OVERLAY ===== -->
+  <div id="panicOverlay"
+       class="hidden fixed inset-0 bg-gray-950/90 z-50 flex flex-col items-center justify-center text-center px-6"
+       role="dialog" aria-modal="true" aria-label="Esercizio di respirazione">
+
+    <button id="panicClose"
+            class="absolute top-5 right-6 bg-white/10 hover:bg-white/25 text-white rounded-full w-11 h-11 text-xl font-bold transition"
+            aria-label="Chiudi">✕</button>
+
+    <!-- Timer view -->
+    <div id="panicTimerView">
+      <div id="panicCount"
+           class="text-[9rem] leading-none font-extrabold text-red-400 animate-breathe select-none">10</div>
+      <div id="panicMsg"
+           class="mt-4 text-2xl md:text-3xl font-semibold text-white min-h-[2.5rem]">Respira...</div>
+      <p class="mt-2 text-gray-400 text-sm">Segui le istruzioni — sei al sicuro 🌿</p>
     </div>
-  </nav>
 
-  <!-- ══ HERO ══════════════════════════════════════════════ -->
-  <section id="hero" class="relative overflow-hidden bg-navy py-24 sm:py-32 px-6 text-center text-white">
-    <!-- grid pattern -->
-    <div class="pointer-events-none absolute inset-0 opacity-[0.06]"
-         style="background-image: linear-gradient(#FF2D78 1px,transparent 1px),linear-gradient(90deg,#FF2D78 1px,transparent 1px);background-size:48px 48px"></div>
-    <!-- glow blobs -->
-    <div class="pointer-events-none absolute -top-24 -left-24 w-96 h-96 rounded-full bg-nerd/20 blur-3xl"></div>
-    <div class="pointer-events-none absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-ibm/20 blur-3xl"></div>
-
-    <div class="relative max-w-4xl mx-auto">
-      <!-- pill badge -->
-      <div class="inline-flex items-center gap-2 bg-nerd/10 border border-nerd/40 text-nerd text-xs font-bold tracking-widest uppercase px-4 py-2 rounded-full mb-8">
-        <span class="w-2 h-2 rounded-full bg-nerd animate-pulse"></span>
-        Edizione 2026 &bull; Italia
-      </div>
-
-      <h1 class="text-4xl sm:text-6xl font-black leading-[1.05] tracking-tight mb-6">
-        <span class="text-white">Celebriamo le</span><br>
-        <span class="text-nerd">34 Protagoniste STEM</span><br>
-        <span class="text-white">dell'edizione 2026</span>
-      </h1>
-
-      <p class="text-lg sm:text-xl font-light text-white/75 mb-10 max-w-2xl mx-auto leading-relaxed">
-        Ragazze straordinarie da tutta Italia che hanno dimostrato come la curiosità,
-        il coraggio e la tecnologia possano cambiare il mondo.
-      </p>
-
-      <div class="w-20 h-[3px] mx-auto mb-10" style="background:linear-gradient(90deg,#FF2D78,#C9A84C)"></div>
-
-      <!-- stats row -->
-      <div class="flex flex-wrap justify-center gap-8 sm:gap-16">
-        <div class="text-center">
-          <span class="block font-mono text-4xl font-bold text-nerd leading-none">34</span>
-          <span class="block text-[11px] tracking-widest uppercase text-white/50 mt-1.5">Protagoniste STEM</span>
-        </div>
-        <div class="text-center">
-          <span class="block font-mono text-4xl font-bold text-gold leading-none">8</span>
-          <span class="block text-[11px] tracking-widest uppercase text-white/50 mt-1.5">Regioni</span>
-        </div>
-        <div class="text-center">
-          <span class="block font-mono text-4xl font-bold text-ibm leading-none">4</span>
-          <span class="block text-[11px] tracking-widest uppercase text-white/50 mt-1.5">Progetti Top</span>
-        </div>
-        <div class="text-center">
-          <span class="block font-mono text-4xl font-bold text-white leading-none">1</span>
-          <span class="block text-[11px] tracking-widest uppercase text-white/50 mt-1.5">Missione</span>
-        </div>
-      </div>
+    <!-- Done view -->
+    <div id="panicDoneView" class="hidden flex-col items-center gap-4">
+      <div class="text-7xl">💪</div>
+      <p class="text-white text-2xl font-bold">Ora stai meglio!<br>Torna ai tuoi studi.</p>
     </div>
-  </section>
+  </div>
 
-  <!-- ══ SUCCESSI ══════════════════════════════════════════ -->
-  <section id="successi" class="py-20 px-6 bg-white">
-    <div class="max-w-6xl mx-auto">
-      <p class="section-eyebrow text-nerd">I Nostri Successi</p>
-      <h2 class="section-heading text-navy">
-        L'eccellenza di quest'anno<br>
-        <span class="text-nerd">in quattro progetti</span>
-      </h2>
-      <p class="text-gray-500 mb-14 max-w-xl leading-relaxed">
-        Quattro progetti che rappresentano il meglio dell'innovazione, della ricerca e dell'impatto sociale sviluppati dalle studentesse del Progetto NERD? 2026.
-      </p>
+  <!-- ===== MAIN ===== -->
+  <main class="flex-1 max-w-3xl w-full mx-auto px-4 py-8 flex flex-col gap-8">
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+    <!-- PANIC BUTTON CARD -->
+    <section class="bg-white rounded-2xl shadow-md p-6 text-center">
+      <h2 class="text-lg font-bold mb-1 flex items-center justify-center gap-2">🚨 Panico da esame?</h2>
+      <p class="text-gray-500 text-sm mb-5">Premi il bottone, chiudi gli occhi e segui la respirazione guidata per 10 secondi.</p>
+      <button id="panicBtn"
+              onclick="startPanic()"
+              class="animate-pulseRed bg-red-500 hover:bg-red-600 active:scale-95 text-white font-extrabold text-2xl px-12 py-4 rounded-full shadow-lg transition-transform cursor-pointer">
+        🚨 PANIC!
+      </button>
+    </section>
 
-        <!-- Noesis -->
-        <div class="relative group border border-gray-100 p-8 hover:border-gold transition-colors duration-300 shadow-sm hover:shadow-lg">
-          <div class="absolute top-0 left-0 w-1 h-full bg-gold group-hover:w-1.5 transition-all duration-300"></div>
-          <div class="flex items-start justify-between mb-4">
-            <span class="text-3xl">&#129504;</span>
-            <span class="inline-flex items-center gap-1 bg-gold/10 border border-gold/40 text-gold text-[11px] font-bold tracking-widest uppercase px-3 py-1 rounded-full">
-              &#127942; 1° parimerito
-            </span>
-          </div>
-          <h3 class="text-xl font-bold text-navy mb-2">Noesis</h3>
-          <p class="text-gray-500 text-sm leading-relaxed">
-            Progetto di intelligenza artificiale applicata alla comprensione del linguaggio naturale. Un sistema capace di analizzare testi complessi e generare insight significativi, premiato a pari merito per l'innovazione tecnica e la solidità della ricerca.
-          </p>
-          <div class="mt-5 flex flex-wrap gap-2">
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-600 px-2 py-0.5">NLP</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-600 px-2 py-0.5">AI</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-600 px-2 py-0.5">Python</span>
-          </div>
-        </div>
+    <!-- TABS CARD -->
+    <section class="bg-white rounded-2xl shadow-md p-6">
+      <h2 class="text-lg font-bold mb-4">📚 Ripasso per materia</h2>
 
-        <!-- Sophia -->
-        <div class="relative group border border-gray-100 p-8 hover:border-gold transition-colors duration-300 shadow-sm hover:shadow-lg">
-          <div class="absolute top-0 left-0 w-1 h-full bg-gold group-hover:w-1.5 transition-all duration-300"></div>
-          <div class="flex items-start justify-between mb-4">
-            <span class="text-3xl">&#129302;</span>
-            <span class="inline-flex items-center gap-1 bg-gold/10 border border-gold/40 text-gold text-[11px] font-bold tracking-widest uppercase px-3 py-1 rounded-full">
-              &#127942; 1° parimerito
-            </span>
-          </div>
-          <h3 class="text-xl font-bold text-navy mb-2">Sophia</h3>
-          <p class="text-gray-500 text-sm leading-relaxed">
-            Robot educativo programmabile progettato per rendere l'apprendimento STEM accessibile a tutte le età. Sophia unisce hardware e software in un'esperienza didattica inclusiva, riconosciuta a pari merito per l'impatto educativo.
-          </p>
-          <div class="mt-5 flex flex-wrap gap-2">
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-600 px-2 py-0.5">Robotics</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-600 px-2 py-0.5">Arduino</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-600 px-2 py-0.5">EdTech</span>
+      <!-- Tab buttons -->
+      <nav class="flex flex-wrap gap-2 mb-5" role="tablist">
+        <button class="tab-btn active rounded-full px-4 py-2 text-sm font-semibold border-2 transition-all cursor-pointer"
+                data-subject="italiano"   onclick="switchTab('italiano')"   role="tab">📝 Italiano</button>
+        <button class="tab-btn rounded-full px-4 py-2 text-sm font-semibold border-2 transition-all cursor-pointer"
+                data-subject="matematica" onclick="switchTab('matematica')" role="tab">➗ Matematica</button>
+        <button class="tab-btn rounded-full px-4 py-2 text-sm font-semibold border-2 transition-all cursor-pointer"
+                data-subject="storia"     onclick="switchTab('storia')"     role="tab">🏛️ Storia</button>
+        <button class="tab-btn rounded-full px-4 py-2 text-sm font-semibold border-2 transition-all cursor-pointer"
+                data-subject="scienze"    onclick="switchTab('scienze')"    role="tab">🔬 Scienze</button>
+        <button class="tab-btn rounded-full px-4 py-2 text-sm font-semibold border-2 transition-all cursor-pointer"
+                data-subject="inglese"    onclick="switchTab('inglese')"    role="tab">🌍 Inglese</button>
+      </nav>
+
+      <!-- ITALIANO -->
+      <div class="tab-panel active" id="panel-italiano" role="tabpanel">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-gray-200">
+          <h3 class="font-bold text-italiano">📝 Italiano — Argomenti chiave</h3>
+          <div class="flex flex-col items-end gap-1">
+            <div class="w-40 bg-gray-200 rounded-full h-2.5 overflow-hidden">
+              <div id="progress-italiano" class="h-2.5 rounded-full bg-italiano transition-all duration-500" style="width:0%"></div>
+            </div>
+            <span id="label-italiano" class="text-xs text-gray-400">0 / 8 completati</span>
           </div>
         </div>
-
-        <!-- Malala -->
-        <div class="relative group border border-gray-100 p-8 hover:border-nerd transition-colors duration-300 shadow-sm hover:shadow-lg">
-          <div class="absolute top-0 left-0 w-1 h-full bg-nerd group-hover:w-1.5 transition-all duration-300"></div>
-          <div class="flex items-start justify-between mb-4">
-            <span class="text-3xl">&#127775;</span>
-            <span class="inline-flex items-center gap-1 bg-nerd/10 border border-nerd/30 text-nerd-dark text-[11px] font-bold tracking-widest uppercase px-3 py-1 rounded-full">
-              &#127942; 2° posto
-            </span>
-          </div>
-          <h3 class="text-xl font-bold text-navy mb-2">Malala</h3>
-          <p class="text-gray-500 text-sm leading-relaxed">
-            Piattaforma digitale dedicata all'accesso equo all'istruzione per ragazze in contesti di vulnerabilità. Ispirata alla storia di Malala Yousafzai, il progetto connette mentore e studentesse attraverso tecnologia e solidarietà.
-          </p>
-          <div class="mt-5 flex flex-wrap gap-2">
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-600 px-2 py-0.5">Social Impact</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-600 px-2 py-0.5">Web</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-600 px-2 py-0.5">UX</span>
-          </div>
-        </div>
-
-        <!-- Euti -->
-        <div class="relative group border border-gray-100 p-8 hover:border-nerd transition-colors duration-300 shadow-sm hover:shadow-lg">
-          <div class="absolute top-0 left-0 w-1 h-full bg-nerd group-hover:w-1.5 transition-all duration-300"></div>
-          <div class="flex items-start justify-between mb-4">
-            <span class="text-3xl">&#127807;</span>
-            <span class="inline-flex items-center gap-1 bg-nerd/10 border border-nerd/30 text-nerd-dark text-[11px] font-bold tracking-widest uppercase px-3 py-1 rounded-full">
-              &#127942; 3° posto
-            </span>
-          </div>
-          <h3 class="text-xl font-bold text-navy mb-2">Euti</h3>
-          <p class="text-gray-500 text-sm leading-relaxed">
-            App di citizen science per il monitoraggio della biodiversità urbana. Euti permette ai cittadini di contribuire alla raccolta dati scientifici su flora e fauna locale, trasformando ogni smartphone in uno strumento di ricerca ambientale.
-          </p>
-          <div class="mt-5 flex flex-wrap gap-2">
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-600 px-2 py-0.5">Sostenibilità</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-600 px-2 py-0.5">Mobile</span>
-            <span class="font-mono text-[11px] bg-gray-100 border border-gray-200 text-gray-600 px-2 py-0.5">OpenData</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ══ LEADER STEM ════════════════════════════════════════ -->
-  <section id="leader" class="py-20 px-6 bg-gray-50">
-    <div class="max-w-6xl mx-auto">
-      <p class="section-eyebrow text-nerd">STEM Hall of Fame 2026</p>
-      <h2 class="section-heading text-navy">
-        Le <span class="text-nerd">34 Protagoniste</span> di quest'anno
-      </h2>
-      <p class="text-gray-500 mb-12 max-w-xl leading-relaxed">
-        Da Lombardia a Sardegna, dalla Basilicata al Veneto: ragazze che hanno partecipato al Progetto NERD?, imparato il codice e dimostrato che la tecnologia è anche loro.
-      </p>
-
-      <!-- Region filter tabs -->
-      <div class="flex flex-wrap gap-2 mb-10" id="region-tabs">
-        <button data-region="all" class="region-tab active-tab text-sm font-semibold px-4 py-1.5 rounded-full border-2 border-nerd bg-nerd text-white transition-all">Tutte</button>
-        <button data-region="EmiliaRomagna"  class="region-tab text-sm font-semibold px-4 py-1.5 rounded-full border-2 border-gray-200 text-gray-500 hover:border-nerd hover:text-nerd transition-all">Emilia-Romagna</button>
-        <button data-region="Lombardia"      class="region-tab text-sm font-semibold px-4 py-1.5 rounded-full border-2 border-gray-200 text-gray-500 hover:border-nerd hover:text-nerd transition-all">Lombardia</button>
-        <button data-region="Piemonte"       class="region-tab text-sm font-semibold px-4 py-1.5 rounded-full border-2 border-gray-200 text-gray-500 hover:border-nerd hover:text-nerd transition-all">Piemonte</button>
-        <button data-region="Lazio"          class="region-tab text-sm font-semibold px-4 py-1.5 rounded-full border-2 border-gray-200 text-gray-500 hover:border-nerd hover:text-nerd transition-all">Lazio</button>
-        <button data-region="Sardegna"       class="region-tab text-sm font-semibold px-4 py-1.5 rounded-full border-2 border-gray-200 text-gray-500 hover:border-nerd hover:text-nerd transition-all">Sardegna</button>
-        <button data-region="Basilicata"     class="region-tab text-sm font-semibold px-4 py-1.5 rounded-full border-2 border-gray-200 text-gray-500 hover:border-nerd hover:text-nerd transition-all">Basilicata</button>
-        <button data-region="Veneto"         class="region-tab text-sm font-semibold px-4 py-1.5 rounded-full border-2 border-gray-200 text-gray-500 hover:border-nerd hover:text-nerd transition-all">Veneto</button>
-        <button data-region="Liguria"        class="region-tab text-sm font-semibold px-4 py-1.5 rounded-full border-2 border-gray-200 text-gray-500 hover:border-nerd hover:text-nerd transition-all">Liguria</button>
+        <ul class="flex flex-col gap-2" id="checklist-italiano">
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-italiano cursor-pointer shrink-0" id="it-1"/><span class="text-sm">Analisi del testo poetico e narrativo</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-italiano cursor-pointer shrink-0" id="it-2"/><span class="text-sm">Dante Alighieri — Divina Commedia (Inferno)</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-italiano cursor-pointer shrink-0" id="it-3"/><span class="text-sm">Giovanni Verga e il Verismo</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-italiano cursor-pointer shrink-0" id="it-4"/><span class="text-sm">Gabriele D'Annunzio e l'Estetismo</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-italiano cursor-pointer shrink-0" id="it-5"/><span class="text-sm">Luigi Pirandello — relativismo e umorismo</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-italiano cursor-pointer shrink-0" id="it-6"/><span class="text-sm">Italo Svevo e la coscienza moderna</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-italiano cursor-pointer shrink-0" id="it-7"/><span class="text-sm">Neorealismo: Pavese, Calvino, Fenoglio</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-italiano cursor-pointer shrink-0" id="it-8"/><span class="text-sm">Tipologie di scrittura: saggio, articolo, tema</span></li>
+        </ul>
+        <button onclick="resetChecklist('italiano')" class="mt-4 text-xs text-gray-400 border border-gray-200 rounded-full px-4 py-1.5 hover:bg-gray-100 transition cursor-pointer">↺ Azzera progresso</button>
       </div>
 
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4" id="leader-grid">
-        <!-- populated by JS from CSV data -->
+      <!-- MATEMATICA -->
+      <div class="tab-panel" id="panel-matematica" role="tabpanel">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-gray-200">
+          <h3 class="font-bold text-matematica">➗ Matematica — Argomenti chiave</h3>
+          <div class="flex flex-col items-end gap-1">
+            <div class="w-40 bg-gray-200 rounded-full h-2.5 overflow-hidden">
+              <div id="progress-matematica" class="h-2.5 rounded-full bg-matematica transition-all duration-500" style="width:0%"></div>
+            </div>
+            <span id="label-matematica" class="text-xs text-gray-400">0 / 8 completati</span>
+          </div>
+        </div>
+        <ul class="flex flex-col gap-2" id="checklist-matematica">
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-matematica cursor-pointer shrink-0" id="ma-1"/><span class="text-sm">Limiti e continuità di una funzione</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-matematica cursor-pointer shrink-0" id="ma-2"/><span class="text-sm">Derivate: regole e applicazioni</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-matematica cursor-pointer shrink-0" id="ma-3"/><span class="text-sm">Studio di funzione completo</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-matematica cursor-pointer shrink-0" id="ma-4"/><span class="text-sm">Integrali indefiniti e definiti</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-matematica cursor-pointer shrink-0" id="ma-5"/><span class="text-sm">Equazioni differenziali (primo ordine)</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-matematica cursor-pointer shrink-0" id="ma-6"/><span class="text-sm">Geometria analitica: coniche</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-matematica cursor-pointer shrink-0" id="ma-7"/><span class="text-sm">Probabilità e statistica</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-matematica cursor-pointer shrink-0" id="ma-8"/><span class="text-sm">Numeri complessi e trigonometria</span></li>
+        </ul>
+        <button onclick="resetChecklist('matematica')" class="mt-4 text-xs text-gray-400 border border-gray-200 rounded-full px-4 py-1.5 hover:bg-gray-100 transition cursor-pointer">↺ Azzera progresso</button>
       </div>
-    </div>
-  </section>
 
-  <!-- ══ MURO DELLE VINCITRICI ═════════════════════════════ -->
-  <section id="muro" class="py-20 px-6 bg-navy">
-    <div class="max-w-6xl mx-auto">
-      <p class="section-eyebrow text-nerd">Interattivo</p>
-      <h2 class="section-heading text-white">
-        Firma il <span class="text-nerd">Muro delle Vincitrici</span>
-      </h2>
-      <p class="text-white/60 mb-10 max-w-xl leading-relaxed">
-        Inserisci il tuo nome e guardalo apparire istantaneamente tra le straordinarie protagoniste del Progetto NERD? 2026.
-      </p>
+      <!-- STORIA -->
+      <div class="tab-panel" id="panel-storia" role="tabpanel">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-gray-200">
+          <h3 class="font-bold text-storia">🏛️ Storia — Argomenti chiave</h3>
+          <div class="flex flex-col items-end gap-1">
+            <div class="w-40 bg-gray-200 rounded-full h-2.5 overflow-hidden">
+              <div id="progress-storia" class="h-2.5 rounded-full bg-storia transition-all duration-500" style="width:0%"></div>
+            </div>
+            <span id="label-storia" class="text-xs text-gray-400">0 / 8 completati</span>
+          </div>
+        </div>
+        <ul class="flex flex-col gap-2" id="checklist-storia">
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-storia cursor-pointer shrink-0" id="st-1"/><span class="text-sm">La Belle Époque e le tensioni pre-belliche</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-storia cursor-pointer shrink-0" id="st-2"/><span class="text-sm">Prima Guerra Mondiale — cause, fasi, esiti</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-storia cursor-pointer shrink-0" id="st-3"/><span class="text-sm">Rivoluzione Russa e nascita dell'URSS</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-storia cursor-pointer shrink-0" id="st-4"/><span class="text-sm">Fascismo e Nazismo — origini e ideologia</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-storia cursor-pointer shrink-0" id="st-5"/><span class="text-sm">Seconda Guerra Mondiale — cause, fasi, Shoah</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-storia cursor-pointer shrink-0" id="st-6"/><span class="text-sm">Guerra Fredda e bipolarismo</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-storia cursor-pointer shrink-0" id="st-7"/><span class="text-sm">Decolonizzazione e nascita del Terzo Mondo</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-storia cursor-pointer shrink-0" id="st-8"/><span class="text-sm">Italia repubblicana: Costituzione e anni del boom</span></li>
+        </ul>
+        <button onclick="resetChecklist('storia')" class="mt-4 text-xs text-gray-400 border border-gray-200 rounded-full px-4 py-1.5 hover:bg-gray-100 transition cursor-pointer">↺ Azzera progresso</button>
+      </div>
 
-      <!-- Form -->
-      <div class="flex flex-col sm:flex-row gap-3 mb-10 max-w-lg">
-        <input
-          id="wall-input"
-          type="text"
-          maxlength="40"
-          placeholder="Il tuo nome…"
-          class="flex-1 bg-white/10 border border-white/20 text-white placeholder-white/40 px-4 py-3 text-sm font-semibold focus:outline-none focus:border-nerd focus:bg-white/15 transition-colors"
-        />
-        <button
-          id="wall-btn"
-          class="bg-nerd hover:bg-nerd-dark text-white font-bold text-sm px-6 py-3 transition-colors shrink-0 tracking-wide"
-        >
-          ✦ Firma!
+      <!-- SCIENZE -->
+      <div class="tab-panel" id="panel-scienze" role="tabpanel">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-gray-200">
+          <h3 class="font-bold text-scienze">🔬 Scienze — Argomenti chiave</h3>
+          <div class="flex flex-col items-end gap-1">
+            <div class="w-40 bg-gray-200 rounded-full h-2.5 overflow-hidden">
+              <div id="progress-scienze" class="h-2.5 rounded-full bg-scienze transition-all duration-500" style="width:0%"></div>
+            </div>
+            <span id="label-scienze" class="text-xs text-gray-400">0 / 8 completati</span>
+          </div>
+        </div>
+        <ul class="flex flex-col gap-2" id="checklist-scienze">
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-scienze cursor-pointer shrink-0" id="sc-1"/><span class="text-sm">DNA, replicazione e sintesi proteica</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-scienze cursor-pointer shrink-0" id="sc-2"/><span class="text-sm">Genetica mendeliana e mutazioni</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-scienze cursor-pointer shrink-0" id="sc-3"/><span class="text-sm">Biotecnologie: PCR, clonazione, OGM</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-scienze cursor-pointer shrink-0" id="sc-4"/><span class="text-sm">Metabolismo cellulare: fotosintesi e respirazione</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-scienze cursor-pointer shrink-0" id="sc-5"/><span class="text-sm">Struttura della Terra e tettonica a placche</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-scienze cursor-pointer shrink-0" id="sc-6"/><span class="text-sm">Chimica organica: idrocarburi e gruppi funzionali</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-scienze cursor-pointer shrink-0" id="sc-7"/><span class="text-sm">Cambiamenti climatici e sostenibilità ambientale</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-scienze cursor-pointer shrink-0" id="sc-8"/><span class="text-sm">Sistema nervoso e sistema endocrino</span></li>
+        </ul>
+        <button onclick="resetChecklist('scienze')" class="mt-4 text-xs text-gray-400 border border-gray-200 rounded-full px-4 py-1.5 hover:bg-gray-100 transition cursor-pointer">↺ Azzera progresso</button>
+      </div>
+
+      <!-- INGLESE -->
+      <div class="tab-panel" id="panel-inglese" role="tabpanel">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-gray-200">
+          <h3 class="font-bold text-inglese">🌍 Inglese — Argomenti chiave</h3>
+          <div class="flex flex-col items-end gap-1">
+            <div class="w-40 bg-gray-200 rounded-full h-2.5 overflow-hidden">
+              <div id="progress-inglese" class="h-2.5 rounded-full bg-inglese transition-all duration-500" style="width:0%"></div>
+            </div>
+            <span id="label-inglese" class="text-xs text-gray-400">0 / 8 completati</span>
+          </div>
+        </div>
+        <ul class="flex flex-col gap-2" id="checklist-inglese">
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-inglese cursor-pointer shrink-0" id="en-1"/><span class="text-sm">The Victorian Age — society and literature</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-inglese cursor-pointer shrink-0" id="en-2"/><span class="text-sm">Charles Dickens — Oliver Twist, Hard Times</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-inglese cursor-pointer shrink-0" id="en-3"/><span class="text-sm">Oscar Wilde — The Picture of Dorian Gray</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-inglese cursor-pointer shrink-0" id="en-4"/><span class="text-sm">Modernism — stream of consciousness</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-inglese cursor-pointer shrink-0" id="en-5"/><span class="text-sm">James Joyce — Dubliners, Ulysses</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-inglese cursor-pointer shrink-0" id="en-6"/><span class="text-sm">George Orwell — 1984, Animal Farm</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-inglese cursor-pointer shrink-0" id="en-7"/><span class="text-sm">The American Dream in literature</span></li>
+          <li class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-100 transition"><input type="checkbox" class="w-4 h-4 accent-inglese cursor-pointer shrink-0" id="en-8"/><span class="text-sm">Writing skills: essay, summary, letter</span></li>
+        </ul>
+        <button onclick="resetChecklist('inglese')" class="mt-4 text-xs text-gray-400 border border-gray-200 rounded-full px-4 py-1.5 hover:bg-gray-100 transition cursor-pointer">↺ Azzera progresso</button>
+      </div>
+
+    </section>
+
+    <!-- QUOTES SECTION -->
+    <section>
+      <h2 class="text-lg font-bold mb-3">💬 Citazione motivazionale</h2>
+      <div id="quoteCard"
+           class="quote-card bg-gradient-to-br from-pink-400 via-fuchsia-500 to-purple-600 text-white rounded-2xl shadow-md p-8 min-h-36 flex flex-col items-center justify-center text-center">
+        <p id="quoteText" class="text-base md:text-lg font-semibold leading-relaxed mb-3">Caricamento...</p>
+        <p id="quoteAuthor" class="text-sm italic opacity-85"></p>
+      </div>
+      <div class="text-center mt-4">
+        <button onclick="showNewQuote()"
+                class="bg-gradient-to-r from-indigo-500 to-purple-600 hover:opacity-90 active:scale-95 text-white font-semibold text-sm px-8 py-3 rounded-full shadow transition cursor-pointer">
+          ✨ Nuova citazione
         </button>
       </div>
+    </section>
 
-      <!-- Wall grid -->
-      <div id="wall-grid" class="flex flex-wrap gap-2.5 min-h-[80px]">
-        <!-- badges populated by JS -->
-      </div>
-      <p id="wall-empty" class="text-white/30 text-sm italic mt-4">
-        Nessuna firma ancora — sii la prima! &#128071;
-      </p>
-    </div>
-  </section>
+  </main>
 
-  <!-- ══ COUNTDOWN GALA ════════════════════════════════════ -->
-  <section id="countdown" class="py-20 px-6 bg-white">
-    <div class="max-w-6xl mx-auto">
-      <p class="section-eyebrow text-nerd">Prossimo Appuntamento</p>
-      <h2 class="section-heading text-navy">
-        Countdown al <span class="text-nerd">Gala Nazionale</span>
-      </h2>
-      <p class="text-gray-500 mb-12 max-w-lg leading-relaxed">
-        La cerimonia di premiazione ufficiale si terrà il
-        <strong class="text-navy">20 ottobre 2026</strong> a Milano.
-        Non mancare!
-      </p>
-
-      <div id="countdown-live">
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mb-6">
-          <div class="bg-navy border-t-4 border-t-nerd text-center py-8 px-4 shadow-sm">
-            <span id="cd-days"  class="block font-mono text-5xl sm:text-6xl font-bold text-nerd leading-none">--</span>
-            <span class="block text-[11px] font-semibold tracking-widest uppercase text-white/50 mt-3">Giorni</span>
-          </div>
-          <div class="bg-navy border-t-4 border-t-gold text-center py-8 px-4 shadow-sm">
-            <span id="cd-hours" class="block font-mono text-5xl sm:text-6xl font-bold text-gold leading-none">--</span>
-            <span class="block text-[11px] font-semibold tracking-widest uppercase text-white/50 mt-3">Ore</span>
-          </div>
-          <div class="bg-navy border-t-4 border-t-ibm text-center py-8 px-4 shadow-sm">
-            <span id="cd-mins"  class="block font-mono text-5xl sm:text-6xl font-bold text-ibm leading-none">--</span>
-            <span class="block text-[11px] font-semibold tracking-widest uppercase text-white/50 mt-3">Minuti</span>
-          </div>
-          <div class="bg-navy border-t-4 border-t-white/30 text-center py-8 px-4 shadow-sm">
-            <span id="cd-secs"  class="block font-mono text-5xl sm:text-6xl font-bold text-white leading-none">--</span>
-            <span class="block text-[11px] font-semibold tracking-widest uppercase text-white/50 mt-3">Secondi</span>
-          </div>
-        </div>
-        <p class="text-sm text-gray-400">
-          <strong class="text-navy">20 Ottobre 2026 — ore 18:00</strong>
-          &bull; Auditorium IBM Italia, Milano
-        </p>
-      </div>
-
-      <div id="countdown-done" class="hidden py-10">
-        <h3 class="text-3xl font-black text-nerd">&#127881; Il Gala è iniziato!</h3>
-        <p class="text-gray-500 mt-3">La cerimonia di premiazione è in corso. Goditi ogni momento!</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══ FOOTER ════════════════════════════════════════════ -->
-  <footer class="bg-navy text-white/60 pt-12 pb-8 px-6">
-    <div class="max-w-6xl mx-auto">
-      <!-- top row -->
-      <div class="flex flex-col sm:flex-row justify-between gap-8 pb-8 border-b border-white/10">
-        <div>
-          <div class="flex items-baseline gap-1.5 mb-3">
-            <span class="text-nerd font-black text-2xl">NERD<span class="text-gold">?</span></span>
-            <span class="text-white/40 text-xs tracking-widest uppercase">Progetto</span>
-          </div>
-          <p class="text-sm leading-relaxed max-w-xs">
-            Ispirare le giovani donne italiane a diventare protagoniste della rivoluzione STEM.
-          </p>
-        </div>
-        <div class="grid grid-cols-2 gap-x-16 gap-y-2 text-sm">
-          <div class="text-[11px] font-semibold tracking-widest uppercase text-gold col-span-2 mb-1">Gala Nazionale</div>
-          <span>20 Ottobre 2026</span>
-          <span>Milano</span>
-          <span>Auditorium IBM</span>
-          <span>Ore 18:00</span>
-        </div>
-      </div>
-      <!-- bottom row -->
-      <div class="mt-6 flex flex-wrap justify-between items-center gap-3 text-xs">
-        <span>&copy; 2026 Progetto NERD? — Tutti i diritti riservati</span>
-        <span class="text-gold font-semibold tracking-wide">&#9670; Powered by IBM Bob</span>
-      </div>
-    </div>
+  <!-- ===== FOOTER ===== -->
+  <footer class="text-center py-5 px-4 border-t border-gray-200 text-gray-400 text-xs">
+    🎓 Maturità Survival Kit — Buona fortuna! &nbsp;|&nbsp; Made with <strong>IBM Bob</strong>
   </footer>
 
-  <!-- ══ JAVASCRIPT ════════════════════════════════════════ -->
+  <!-- ===== JAVASCRIPT ===== -->
   <script>
-    // ── 1. Studentesse Grid — CSV data ───────────────────────────
-    var LEADERS = [
-      { nome: 'Aya',              regione: 'EmiliaRomagna' },
-      { nome: 'Eleonora',         regione: 'Lombardia' },
-      { nome: 'Giorgia',          regione: 'Liguria' },
-      { nome: 'Nicole',           regione: 'Lombardia' },
-      { nome: 'Sofia',            regione: 'Piemonte' },
-      { nome: 'Lisa',             regione: 'Piemonte' },
-      { nome: 'Marta',            regione: 'Lombardia' },
-      { nome: 'Marika',           regione: 'Lombardia' },
-      { nome: 'Aurora',           regione: 'Sardegna' },
-      { nome: 'Francesca Ludovica', regione: 'Sardegna' },
-      { nome: 'Emma',             regione: 'Sardegna' },
-      { nome: 'Alessandra',       regione: 'Sardegna' },
-      { nome: 'Maddalena',        regione: 'Lazio' },
-      { nome: 'Isratjahan',       regione: 'Lazio' },
-      { nome: 'Eleonora',         regione: 'Lazio' },
-      { nome: 'Isabella',         regione: 'Lazio' },
-      { nome: 'Sofia',            regione: 'Lazio' },
-      { nome: 'Beatrice Andreia', regione: 'Lazio' },
-      { nome: 'Ennaour',          regione: 'Piemonte' },
-      { nome: 'Donatella Pia',    regione: 'Basilicata' },
-      { nome: 'Martina',          regione: 'Basilicata' },
-      { nome: 'Mariarosa',        regione: 'Basilicata' },
-      { nome: 'Melissa',          regione: 'Basilicata' },
-      { nome: 'Sofia',            regione: 'Basilicata' },
-      { nome: 'Marzia',           regione: 'Basilicata' },
-      { nome: 'Teresa',           regione: 'Veneto' },
-      { nome: 'Sanaa',            regione: 'Veneto' },
-      { nome: 'Sofia',            regione: 'Veneto' },
-      { nome: 'Lucia',            regione: 'Veneto' },
-      { nome: 'Ashley',           regione: 'Liguria' },
-      { nome: 'Daria',            regione: 'Liguria' },
-      { nome: 'Elisa',            regione: 'Liguria' },
-      { nome: 'Sara',             regione: 'Sardegna' },
-    ];
-
-    var REGION_LABELS = {
-      EmiliaRomagna: 'Emilia-Romagna',
-      Lombardia:     'Lombardia',
-      Piemonte:      'Piemonte',
-      Lazio:         'Lazio',
-      Sardegna:      'Sardegna',
-      Basilicata:    'Basilicata',
-      Veneto:        'Veneto',
-      Liguria:       'Liguria',
+    /* ──────────────────────────────────────
+       TAB COLOURS (applied via JS since Tailwind CDN needs safelist)
+    ────────────────────────────────────── */
+    const SUBJECT_COLORS = {
+      italiano:   { bg: '#E74C3C', border: '#E74C3C', text: '#E74C3C' },
+      matematica: { bg: '#3498DB', border: '#3498DB', text: '#3498DB' },
+      storia:     { bg: '#E67E22', border: '#E67E22', text: '#E67E22' },
+      scienze:    { bg: '#27AE60', border: '#27AE60', text: '#27AE60' },
+      inglese:    { bg: '#8E44AD', border: '#8E44AD', text: '#8E44AD' },
     };
 
-    // initials helper
-    function initials(name) {
-      return name.split(' ').map(function(w){ return w[0]; }).join('').slice(0,2).toUpperCase();
+    const SUBJECTS = Object.keys(SUBJECT_COLORS);
+
+    function applyTabStyles() {
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        const s = btn.dataset.subject;
+        const c = SUBJECT_COLORS[s];
+        if (btn.classList.contains('active')) {
+          btn.style.backgroundColor = c.bg;
+          btn.style.borderColor     = c.border;
+          btn.style.color           = '#fff';
+        } else {
+          btn.style.backgroundColor = '#fff';
+          btn.style.borderColor     = c.border;
+          btn.style.color           = c.text;
+        }
+      });
     }
 
-    // palette per region (ciclo su 8 colori)
-    var BG_COLORS = [
-      'bg-pink-100 text-pink-800',
-      'bg-blue-100 text-blue-800',
-      'bg-purple-100 text-purple-800',
-      'bg-emerald-100 text-emerald-800',
-      'bg-amber-100 text-amber-800',
-      'bg-sky-100 text-sky-800',
-      'bg-rose-100 text-rose-800',
-      'bg-teal-100 text-teal-800',
+    /* ──────────────────────────────────────
+       TABS
+    ────────────────────────────────────── */
+    function switchTab(subject) {
+      SUBJECTS.forEach(s => {
+        document.getElementById('panel-' + s).classList.toggle('active', s === subject);
+      });
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.subject === subject);
+      });
+      applyTabStyles();
+    }
+
+    applyTabStyles(); // init
+
+    /* ──────────────────────────────────────
+       CHECKLIST — localStorage persistence
+    ────────────────────────────────────── */
+    function storageKey(subject) { return 'msk_' + subject; }
+
+    function loadChecklist(subject) {
+      const saved = JSON.parse(localStorage.getItem(storageKey(subject)) || '{}');
+      document.querySelectorAll('#checklist-' + subject + ' input[type="checkbox"]').forEach(cb => {
+        if (saved[cb.id]) {
+          cb.checked = true;
+          cb.closest('li').classList.add('checked');
+        }
+      });
+      updateProgress(subject);
+    }
+
+    function saveChecklist(subject) {
+      const state = {};
+      document.querySelectorAll('#checklist-' + subject + ' input[type="checkbox"]').forEach(cb => {
+        state[cb.id] = cb.checked;
+      });
+      localStorage.setItem(storageKey(subject), JSON.stringify(state));
+      updateProgress(subject);
+    }
+
+    function updateProgress(subject) {
+      const items = document.querySelectorAll('#checklist-' + subject + ' input[type="checkbox"]');
+      const total = items.length;
+      const done  = Array.from(items).filter(cb => cb.checked).length;
+      const pct   = total ? Math.round(done / total * 100) : 0;
+      document.getElementById('progress-' + subject).style.width = pct + '%';
+      document.getElementById('label-' + subject).textContent    = done + ' / ' + total + ' completati';
+    }
+
+    function resetChecklist(subject) {
+      document.querySelectorAll('#checklist-' + subject + ' input[type="checkbox"]').forEach(cb => {
+        cb.checked = false;
+        cb.closest('li').classList.remove('checked');
+      });
+      localStorage.removeItem(storageKey(subject));
+      updateProgress(subject);
+    }
+
+    SUBJECTS.forEach(subject => {
+      loadChecklist(subject);
+      // checkbox direct change
+      document.querySelectorAll('#checklist-' + subject + ' input[type="checkbox"]').forEach(cb => {
+        cb.addEventListener('change', function () {
+          this.closest('li').classList.toggle('checked', this.checked);
+          saveChecklist(subject);
+        });
+      });
+      // entire row click
+      document.querySelectorAll('#checklist-' + subject + ' li').forEach(li => {
+        li.addEventListener('click', function (e) {
+          if (e.target.tagName === 'INPUT') return;
+          const cb = this.querySelector('input');
+          cb.checked = !cb.checked;
+          this.classList.toggle('checked', cb.checked);
+          saveChecklist(subject);
+        });
+      });
+    });
+
+    /* ──────────────────────────────────────
+       PANIC BUTTON
+    ────────────────────────────────────── */
+    const breathingSteps = [
+      'Inspira lentamente... 🌬️',
+      'Inspira ancora... 🌬️',
+      'Trattieni il respiro... ⏸️',
+      'Trattieni ancora... ⏸️',
+      'Espira piano piano... 😮‍💨',
+      'Espira ancora... 😮‍💨',
+      'Respira normalmente 🌿',
+      'Senti la calma arrivare ✨',
+      'Quasi finito... sei forte 💪',
+      'Ultimo secondo — ottimo! 🌟',
     ];
-    var regionColors = {};
-    var colorIdx = 0;
-    LEADERS.forEach(function(l) {
-      if (!regionColors[l.regione]) {
-        regionColors[l.regione] = BG_COLORS[colorIdx++ % BG_COLORS.length];
-      }
-    });
 
-    function renderStudentesses(filter) {
-      var grid = document.getElementById('leader-grid');
-      grid.innerHTML = '';
-      var list = filter === 'all' ? LEADERS : LEADERS.filter(function(l){ return l.regione === filter; });
-      list.forEach(function(l) {
-        var colors = regionColors[l.regione];
-        var card = document.createElement('div');
-        card.className = 'flex flex-col items-center gap-2 p-4 border border-gray-100 bg-white shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all text-center';
-        card.innerHTML =
-          '<div class="w-12 h-12 rounded-full flex items-center justify-center text-sm font-black ' + colors + '">' +
-            initials(l.nome) +
-          '</div>' +
-          '<span class="text-sm font-semibold text-navy leading-tight">' + l.nome + '</span>' +
-          '<span class="text-[10px] tracking-wide text-gray-400 uppercase">' + REGION_LABELS[l.regione] + '</span>';
-        grid.appendChild(card);
-      });
-    }
+    let panicInterval = null;
+    let panicTimeout  = null;
 
-    renderLeaders('all');
+    function startPanic() {
+      const overlay   = document.getElementById('panicOverlay');
+      const countEl   = document.getElementById('panicCount');
+      const msgEl     = document.getElementById('panicMsg');
+      const timerView = document.getElementById('panicTimerView');
+      const doneView  = document.getElementById('panicDoneView');
 
-    // Region tab filter
-    document.getElementById('region-tabs').addEventListener('click', function(e) {
-      var btn = e.target.closest('.region-tab');
-      if (!btn) return;
-      document.querySelectorAll('.region-tab').forEach(function(t) {
-        t.classList.remove('active-tab', 'border-nerd', 'bg-nerd', 'text-white');
-        t.classList.add('border-gray-200', 'text-gray-500');
-      });
-      btn.classList.add('active-tab', 'border-nerd', 'bg-nerd', 'text-white');
-      btn.classList.remove('border-gray-200', 'text-gray-500');
-      renderLeaders(btn.getAttribute('data-region'));
-    });
+      clearInterval(panicInterval);
+      clearTimeout(panicTimeout);
 
-    // ── 2. Muro delle Vincitrici ────────────────────────────
-    var wallGrid  = document.getElementById('wall-grid');
-    var wallEmpty = document.getElementById('wall-empty');
-    var wallInput = document.getElementById('wall-input');
-    var wallBtn   = document.getElementById('wall-btn');
+      timerView.classList.remove('hidden');
+      doneView.classList.add('hidden');
+      doneView.classList.remove('flex');
 
-    function addToWall(name) {
-      name = name.trim();
-      if (!name) return;
-      wallEmpty.style.display = 'none';
+      let seconds = 10;
+      countEl.textContent = seconds;
+      msgEl.textContent   = breathingSteps[10 - seconds];
 
-      var badge = document.createElement('span');
-      badge.className = 'badge-wall-item new-entry';
-      badge.textContent = '✦ ' + name;
-      wallGrid.prepend(badge);
+      overlay.classList.remove('hidden');
+      overlay.classList.add('flex');
 
-      // animate: remove new-entry class after 800ms to settle style
-      setTimeout(function() { badge.classList.remove('new-entry'); }, 800);
-      wallInput.value = '';
-      wallInput.focus();
-    }
-
-    wallBtn.addEventListener('click', function() { addToWall(wallInput.value); });
-    wallInput.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') addToWall(wallInput.value);
-    });
-
-    // ── 3. Countdown ────────────────────────────────────────
-    (function() {
-      var target = new Date('2026-10-20T18:00:00');
-      function pad(n) { return String(Math.floor(n)).padStart(2, '0'); }
-      function tick() {
-        var diff = target - new Date();
-        if (diff <= 0) {
-          document.getElementById('countdown-live').classList.add('hidden');
-          document.getElementById('countdown-done').classList.remove('hidden');
+      panicInterval = setInterval(() => {
+        seconds--;
+        if (seconds <= 0) {
+          clearInterval(panicInterval);
+          timerView.classList.add('hidden');
+          doneView.classList.remove('hidden');
+          doneView.classList.add('flex');
+          panicTimeout = setTimeout(closePanic, 3000);
           return;
         }
-        document.getElementById('cd-days').textContent  = pad(diff / 86400000);
-        document.getElementById('cd-hours').textContent = pad((diff % 86400000) / 3600000);
-        document.getElementById('cd-mins').textContent  = pad((diff % 3600000) / 60000);
-        document.getElementById('cd-secs').textContent  = pad((diff % 60000) / 1000);
-      }
-      tick();
-      setInterval(tick, 1000);
-    }());
-  </script>
+        countEl.textContent = seconds;
+        msgEl.textContent   = breathingSteps[10 - seconds];
+      }, 1000);
+    }
 
+    function closePanic() {
+      clearInterval(panicInterval);
+      clearTimeout(panicTimeout);
+      const overlay = document.getElementById('panicOverlay');
+      overlay.classList.add('hidden');
+      overlay.classList.remove('flex');
+    }
+
+    document.getElementById('panicClose').addEventListener('click', closePanic);
+    document.getElementById('panicOverlay').addEventListener('click', function (e) {
+      if (e.target === this) closePanic();
+    });
+
+    /* ──────────────────────────────────────
+       QUOTES
+    ────────────────────────────────────── */
+    const quotes = [
+      { text: 'Il successo è la somma di piccoli sforzi ripetuti ogni giorno.',            author: 'Robert Collier' },
+      { text: 'Ogni esperto era prima un principiante.',                                    author: 'Helen Hayes' },
+      { text: 'Non importa quanto sei lento, purché non ti fermi.',                         author: 'Confucio' },
+      { text: 'La mente non è un vaso da riempire, ma un fuoco da accendere.',              author: 'Plutarco' },
+      { text: 'Studia come se dovessi vivere per sempre, vivi come se dovessi morire domani.', author: 'Mahatma Gandhi' },
+      { text: 'The secret of getting ahead is getting started.',                             author: 'Mark Twain' },
+      { text: 'Il fallimento è l\'opportunità di ricominciare in modo più intelligente.',    author: 'Henry Ford' },
+      { text: 'An investment in knowledge pays the best interest.',                          author: 'Benjamin Franklin' },
+      { text: 'La conoscenza è l\'unica cosa che non ti può essere tolta.',                  author: 'Nelson Mandela' },
+      { text: 'It always seems impossible until it\'s done.',                                author: 'Nelson Mandela' },
+      { text: 'L\'unico modo per fare un ottimo lavoro è amare ciò che fai.',               author: 'Steve Jobs' },
+      { text: 'Believe you can and you\'re halfway there.',                                   author: 'Theodore Roosevelt' },
+      { text: 'La difficoltà è ciò che sveglia il genio.',                                   author: 'Nassim Nicholas Taleb' },
+      { text: 'You don\'t have to be great to start, but you have to start to be great.',    author: 'Zig Ziglar' },
+      { text: 'Ogni libro che leggi è un\'esperienza che vivi.',                              author: 'Anonimo' },
+      { text: 'Non smettere mai di imparare, perché la vita non smette mai di insegnare.',   author: 'Anonimo' },
+      { text: 'The more that you read, the more things you will know.',                      author: 'Dr. Seuss' },
+    ];
+
+    let lastQuoteIndex = -1;
+
+    function showNewQuote() {
+      const card = document.getElementById('quoteCard');
+      card.classList.add('fade');
+      setTimeout(() => {
+        let idx;
+        do { idx = Math.floor(Math.random() * quotes.length); } while (idx === lastQuoteIndex);
+        lastQuoteIndex = idx;
+        const q = quotes[idx];
+        document.getElementById('quoteText').textContent   = '\u201C' + q.text + '\u201D';
+        document.getElementById('quoteAuthor').textContent = '\u2014 ' + q.author;
+        card.classList.remove('fade');
+      }, 350);
+    }
+
+    showNewQuote();
+  </script>
 </body>
 </html>
