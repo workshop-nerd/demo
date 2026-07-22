@@ -1,38 +1,340 @@
 <!DOCTYPE html>
-<html lang="en">
-
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workshop Progetto Nerd 2026</title>
-    <style>
-      html,
-      body {
-        font-family: system-ui, -apple-system, sans-serif;
-        background-color: #f9f9f9;
-        color: #333;
-        text-align: center;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎓 Maturità Survival Kit</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              indigo: '#4f46e5',
+              rose:   '#e11d48',
+              amber:  '#d97706',
+              emerald:'#059669',
+            }
+          },
+          keyframes: {
+            pulsering: {
+              '0%, 100%': { boxShadow: '0 0 0 0 rgba(225,29,72,0.6)' },
+              '50%':       { boxShadow: '0 0 0 20px rgba(225,29,72,0)' },
+            },
+            fadein: {
+              '0%':   { opacity: '0', transform: 'translateY(8px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            }
+          },
+          animation: {
+            pulsering: 'pulsering 1.6s ease-in-out infinite',
+            fadein:    'fadein 0.4s ease both',
+          }
+        }
       }
+    }
+  </script>
+  <style>
+    .tab-btn.active {
+      border-bottom-color: #4f46e5;
+      color: #4f46e5;
+      font-weight: 700;
+    }
+    #quote-card {
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    #quote-card.fade-out {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-rose-50 text-slate-800 font-sans">
 
-      .box {
-        position: relative;
-        top: 25%;
-        margin: auto auto;
-      }
-    </style>
-  </head>
-
-  <body>
-    <div class="box">
-      <h1>Workshop Progetto Nerd 2026</h1>
-      <p></p>
-      <br>
-      <br>
-      <h2>Work in progress, torna dopo, quando Bob avrà finito il suo lavoro</h2>
+  <!-- ═══════════════ HEADER ═══════════════ -->
+  <header class="bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-600 text-white py-8 px-4 shadow-lg">
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="text-4xl mb-2">🎓</p>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Maturità Survival Kit</h1>
+      <p class="mt-2 text-indigo-200 text-sm md:text-base">Tutto quello che ti serve per sopravvivere agli esami — respira, ripassa, ce la fai.</p>
     </div>
-  </body>
+  </header>
 
+  <!-- ═══════════════ MAIN ═══════════════ -->
+  <main class="max-w-3xl mx-auto px-4 py-8 space-y-10">
+
+    <!-- ─── PANIC BUTTON ─── -->
+    <section class="flex flex-col items-center gap-3">
+      <p class="text-sm text-slate-500 uppercase tracking-widest font-semibold">Sezione emergenza</p>
+      <button
+        id="panic-btn"
+        onclick="startPanic()"
+        class="animate-pulsering bg-rose-600 hover:bg-rose-700 active:scale-95 transition-transform text-white font-black text-xl md:text-2xl px-10 py-5 rounded-full shadow-2xl uppercase tracking-wide select-none"
+        style="animation: pulsering 1.6s ease-in-out infinite;"
+      >
+        🚨 PANICO!
+      </button>
+      <p class="text-xs text-slate-400">Premi per avviare la respirazione guidata</p>
+    </section>
+
+    <!-- ─── TABS ─── -->
+    <section>
+      <p class="text-sm text-slate-500 uppercase tracking-widest font-semibold mb-3">Ripasso veloce</p>
+
+      <!-- Tab bar -->
+      <div class="overflow-x-auto">
+        <div class="flex gap-0 border-b border-slate-200 min-w-max" role="tablist">
+          <button class="tab-btn active px-4 py-3 text-sm border-b-2 border-transparent transition-colors hover:text-indigo-500" onclick="switchTab('italiano')"   role="tab">📝 Italiano</button>
+          <button class="tab-btn        px-4 py-3 text-sm border-b-2 border-transparent transition-colors hover:text-indigo-500" onclick="switchTab('matematica')" role="tab">📐 Matematica</button>
+          <button class="tab-btn        px-4 py-3 text-sm border-b-2 border-transparent transition-colors hover:text-indigo-500" onclick="switchTab('scienze')"    role="tab">🔬 Scienze</button>
+          <button class="tab-btn        px-4 py-3 text-sm border-b-2 border-transparent transition-colors hover:text-indigo-500" onclick="switchTab('storia')"     role="tab">🏛 Storia</button>
+          <button class="tab-btn        px-4 py-3 text-sm border-b-2 border-transparent transition-colors hover:text-indigo-500" onclick="switchTab('inglese')"    role="tab">🌍 Inglese</button>
+          <button class="tab-btn        px-4 py-3 text-sm border-b-2 border-transparent transition-colors hover:text-indigo-500" onclick="switchTab('filosofia')"  role="tab">🧠 Filosofia</button>
+        </div>
+      </div>
+
+      <!-- Tab panels -->
+      <div class="mt-4 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm animate-fadein">
+
+        <!-- ITALIANO -->
+        <div id="tab-italiano" class="tab-panel space-y-3">
+          <h2 class="font-bold text-lg text-indigo-600 mb-4">📝 Italiano — Punti chiave</h2>
+          <ul class="space-y-2 text-sm leading-relaxed">
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Analisi del testo:</strong> identifica narratore, focalizzazione, figure retoriche (metafora, similitudine, anafora), struttura metrica.</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Saggio breve:</strong> tesi chiara nell'incipit, argomentazione con documenti, confutazione e conclusione.</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Leopardi:</strong> pessimismo cosmico, <em>Zibaldone</em>, <em>Canti</em> (L'infinito, A Silvia), teoria del piacere.</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Verismo / Verga:</strong> tecnica dell'impersonalità, regressione del narratore, <em>I Malavoglia</em>, ideale dell'ostrica.</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>D'Annunzio vs Pascoli:</strong> estetismo/superomismo vs simbolismo e "fanciullino".</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Svevo &amp; Pirandello:</strong> inettitudine dell'uomo moderno, relativismo, maschera e volto, <em>Il fu Mattia Pascal</em>, <em>La coscienza di Zeno</em>.</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Divina Commedia:</strong> struttura dei tre regni, allegoria del viaggio, canti da ripassare (III, V, VI Inf.; Purg. XXX; Par. XXXIII).</span></li>
+          </ul>
+        </div>
+
+        <!-- MATEMATICA -->
+        <div id="tab-matematica" class="tab-panel hidden space-y-3">
+          <h2 class="font-bold text-lg text-indigo-600 mb-4">📐 Matematica — Punti chiave</h2>
+          <ul class="space-y-2 text-sm leading-relaxed">
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Limiti:</strong> definizione ε-δ, forme indeterminate (∞/∞, 0/0), limiti notevoli (sin x/x → 1, (1+1/n)ⁿ → e).</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Derivate:</strong> regole (somma, prodotto, quoziente, catena), derivate delle funzioni elementari, crescenza/decrescenza, punti stazionari.</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Studio di funzione:</strong> dominio → intersezioni assi → segno → asintoti → derivata prima/seconda → grafico.</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Integrali:</strong> indefiniti (formule base, sostituzione, per parti), definiti (teorema fondamentale del calcolo), area tra curve.</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Equazioni differenziali:</strong> a variabili separabili, del 1° ordine lineari (y' + p(x)y = q(x)).</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Probabilità:</strong> eventi, teorema di Bayes, variabili aleatorie discrete (Binomiale, Poisson) e continue (Normale).</span></li>
+          </ul>
+        </div>
+
+        <!-- SCIENZE -->
+        <div id="tab-scienze" class="tab-panel hidden space-y-3">
+          <h2 class="font-bold text-lg text-indigo-600 mb-4">🔬 Scienze — Punti chiave</h2>
+          <ul class="space-y-2 text-sm leading-relaxed">
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Chimica organica:</strong> ibridazione del carbonio (sp³, sp², sp), gruppi funzionali, alcani/alcheni/alchini, reazioni di sostituzione e addizione.</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Biomolecole:</strong> carboidrati (mono- di- polisaccaridi), lipidi, proteine (struttura 1° → 4°), acidi nucleici (DNA/RNA).</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Genetica molecolare:</strong> replicazione del DNA, trascrizione, traduzione, codice genetico, mutazioni puntiformi e cromosomiche.</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Tettonica delle placche:</strong> dorsali oceaniche, fosse, subduzione, orogenesi, teoria di Wegener + prove.</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Metabolismo:</strong> glicolisi, ciclo di Krebs, catena respiratoria, ATP, fermentazione lattica e alcolica.</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Biotecnologie:</strong> PCR, elettroforesi su gel, clonaggio molecolare, CRISPR, OGM, terapia genica.</span></li>
+          </ul>
+        </div>
+
+        <!-- STORIA -->
+        <div id="tab-storia" class="tab-panel hidden space-y-3">
+          <h2 class="font-bold text-lg text-indigo-600 mb-4">🏛 Storia — Punti chiave</h2>
+          <ul class="space-y-2 text-sm leading-relaxed">
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Belle époque &amp; Giolittismo:</strong> sviluppo industriale, questione meridionale, neutralismo/interventismo (1911–1914).</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Prima Guerra Mondiale:</strong> cause strutturali, la trincea, i fronti, Trattato di Versailles e le sue conseguenze.</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Totalitarismi:</strong> fascismo italiano (marcia su Roma → leggi fascistissime), nazismo (ascesa di Hitler, Norimberga, Shoah), stalinismo (piani quinquennali, gulag).</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Seconda Guerra Mondiale:</strong> Blitzkrieg, Operazione Barbarossa, Shoah, sbarco in Normandia, 8 settembre, Resistenza, bombe atomiche.</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Guerra Fredda:</strong> bipolarismo USA-URSS, Piano Marshall, NATO-Patto di Varsavia, crisi di Cuba, decolonizzazione.</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Italia repubblicana:</strong> Costituzione 1948, miracolo economico, anni di piombo, Tangentopoli, nascita dell'UE.</span></li>
+          </ul>
+        </div>
+
+        <!-- INGLESE -->
+        <div id="tab-inglese" class="tab-panel hidden space-y-3">
+          <h2 class="font-bold text-lg text-indigo-600 mb-4">🌍 Inglese — Punti chiave</h2>
+          <ul class="space-y-2 text-sm leading-relaxed">
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Romanticism:</strong> Blake, Wordsworth, Keats — Nature, imagination, sublime; key poems to quote.</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Victorian Age:</strong> social issues in Dickens, realism, double morality; <em>Oliver Twist</em>, <em>Hard Times</em>.</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Aestheticism:</strong> Oscar Wilde — "art for art's sake", <em>The Picture of Dorian Gray</em>, epigrams.</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Modernism:</strong> stream of consciousness (Woolf, Joyce), <em>Mrs Dalloway</em>, <em>Ulysses</em>, fragmentation of the self.</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Dystopian fiction:</strong> Orwell <em>1984</em> (Big Brother, Newspeak, doublethink) vs Huxley <em>Brave New World</em>.</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Grammar essentials:</strong> reported speech, conditional types I-II-III, passive voice, modal verbs in context.</span></li>
+          </ul>
+        </div>
+
+        <!-- FILOSOFIA -->
+        <div id="tab-filosofia" class="tab-panel hidden space-y-3">
+          <h2 class="font-bold text-lg text-indigo-600 mb-4">🧠 Filosofia — Punti chiave</h2>
+          <ul class="space-y-2 text-sm leading-relaxed">
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Kant:</strong> le 3 Critiche, fenomeno/noumeno, imperativo categorico, giudizio estetico del sublime.</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Hegel:</strong> dialettica tesi-antitesi-sintesi, Spirito assoluto, filosofia della storia, "tutto ciò che è reale è razionale".</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Marx:</strong> materialismo storico, plusvalore, alienazione, lotta di classe, <em>Il Manifesto</em>, struttura/sovrastruttura.</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Nietzsche:</strong> morte di Dio, nichilismo, superuomo (Übermensch), eterno ritorno, volontà di potenza, dionisiaco/apollineo.</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Freud:</strong> inconscio, Es/Io/Super-Io, complesso di Edipo, principio di piacere/realtà, interpretazione dei sogni.</span></li>
+            <li class="flex gap-2"><span class="text-indigo-400">▸</span><span><strong>Esistenzialismo:</strong> Heidegger (essere-nel-mondo, angoscia, autenticità), Sartre (l'esistenza precede l'essenza, libertà, malafede).</span></li>
+          </ul>
+        </div>
+
+      </div><!-- end panel wrapper -->
+    </section>
+
+    <!-- ─── QUOTE GENERATOR ─── -->
+    <section>
+      <p class="text-sm text-slate-500 uppercase tracking-widest font-semibold mb-3">Citazione del momento</p>
+      <div class="bg-amber-50 border border-amber-200 rounded-2xl p-6 shadow-sm">
+        <div id="quote-card" class="min-h-[80px] flex flex-col justify-center">
+          <blockquote id="quote-text" class="text-base md:text-lg font-medium text-amber-900 italic leading-relaxed before:content-['\201C'] after:content-['\201D']"></blockquote>
+          <cite id="quote-author" class="mt-3 block text-sm text-amber-600 not-italic font-semibold"></cite>
+        </div>
+        <button
+          onclick="newQuote()"
+          class="mt-5 inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 active:scale-95 transition-all text-white font-bold text-sm px-5 py-2.5 rounded-full shadow"
+        >
+          ✨ Nuova citazione
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer class="mt-8 py-6 border-t border-slate-200 text-center text-xs text-slate-400">
+    🐺 In bocca al lupo! &mdash; Maturità Survival Kit &copy; 2025 &mdash; Made with <span class="text-rose-400">♥</span> &amp; IBM Bob
+  </footer>
+
+  <!-- ═══════════════ PANIC OVERLAY ═══════════════ -->
+  <div
+    id="panic-overlay"
+    class="fixed inset-0 z-50 hidden flex-col items-center justify-center bg-slate-900/90 backdrop-blur-sm text-white text-center px-6"
+  >
+    <button onclick="closePanic()" class="absolute top-5 right-6 text-white/60 hover:text-white text-3xl font-light leading-none">&times;</button>
+
+    <div id="panic-breathing-icon" class="text-6xl mb-6 transition-all duration-1000">🫁</div>
+
+    <div id="panic-countdown" class="text-8xl font-black text-rose-400 tabular-nums mb-4">10</div>
+
+    <p id="panic-instruction" class="text-xl md:text-2xl font-semibold max-w-sm leading-relaxed mb-2">Inspira lentamente…</p>
+    <p class="text-sm text-white/50">Segui il ritmo — stai facendo bene</p>
+  </div>
+
+  <!-- ═══════════════ JAVASCRIPT ═══════════════ -->
+  <script>
+    /* ── TABS ── */
+    const tabIds = ['italiano','matematica','scienze','storia','inglese','filosofia'];
+
+    function switchTab(subject) {
+      tabIds.forEach(id => {
+        document.getElementById('tab-' + id).classList.toggle('hidden', id !== subject);
+      });
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('onclick') === "switchTab('" + subject + "')") {
+          btn.classList.add('active');
+        }
+      });
+      // re-trigger fade animation
+      const panel = document.getElementById('tab-' + subject).parentElement;
+      panel.classList.remove('animate-fadein');
+      void panel.offsetWidth; // reflow
+      panel.classList.add('animate-fadein');
+    }
+
+    /* ── PANIC BUTTON ── */
+    let panicInterval = null;
+
+    const breathingSteps = [
+      { sec: 10, icon: '🫁', text: 'Inspira lentamente…' },
+      { sec: 9,  icon: '🫁', text: 'Inspira lentamente…' },
+      { sec: 8,  icon: '🫁', text: 'Inspira lentamente…' },
+      { sec: 7,  icon: '⏸',  text: 'Trattieni il respiro…' },
+      { sec: 6,  icon: '⏸',  text: 'Trattieni il respiro…' },
+      { sec: 5,  icon: '⏸',  text: 'Trattieni il respiro…' },
+      { sec: 4,  icon: '💨', text: 'Espira lentamente…' },
+      { sec: 3,  icon: '💨', text: 'Espira lentamente…' },
+      { sec: 2,  icon: '💨', text: 'Espira lentamente…' },
+      { sec: 1,  icon: '😌', text: 'Quasi fatta…' },
+    ];
+
+    function startPanic() {
+      const overlay = document.getElementById('panic-overlay');
+      overlay.classList.remove('hidden');
+      overlay.classList.add('flex');
+
+      let tick = 0;
+      updateBreathing(tick);
+
+      panicInterval = setInterval(() => {
+        tick++;
+        if (tick >= breathingSteps.length) {
+          clearInterval(panicInterval);
+          panicInterval = null;
+          document.getElementById('panic-countdown').textContent = '✓';
+          document.getElementById('panic-instruction').textContent = 'Stai andando benissimo! 💪';
+          document.getElementById('panic-breathing-icon').textContent = '🌟';
+          setTimeout(closePanic, 2000);
+          return;
+        }
+        updateBreathing(tick);
+      }, 1000);
+    }
+
+    function updateBreathing(tick) {
+      const step = breathingSteps[tick];
+      document.getElementById('panic-countdown').textContent    = step.sec;
+      document.getElementById('panic-instruction').textContent  = step.text;
+      document.getElementById('panic-breathing-icon').textContent = step.icon;
+    }
+
+    function closePanic() {
+      if (panicInterval) {
+        clearInterval(panicInterval);
+        panicInterval = null;
+      }
+      const overlay = document.getElementById('panic-overlay');
+      overlay.classList.add('hidden');
+      overlay.classList.remove('flex');
+    }
+
+    /* ── QUOTES ── */
+    const quotes = [
+      { text: "Il genio è uno per cento ispirazione e novantanove per cento sudore.", author: "Thomas Edison" },
+      { text: "Non importa quanto vai piano, l'importante è che tu non ti fermi.", author: "Confucio" },
+      { text: "Ogni esperto è stato una volta un principiante.", author: "Helen Hayes" },
+      { text: "La disciplina è il ponte tra obiettivi e risultati.", author: "Jim Rohn" },
+      { text: "Il successo è la somma di piccoli sforzi ripetuti giorno dopo giorno.", author: "Robert Collier" },
+      { text: "Credi in te stesso e il mondo crederà in te.", author: "Proverbio" },
+      { text: "Il momento migliore per piantare un albero era vent'anni fa. Il secondo momento migliore è adesso.", author: "Proverbio cinese" },
+      { text: "Le difficoltà preparano persone ordinarie a un destino straordinario.", author: "C.S. Lewis" },
+      { text: "Non studiare per superare un esame. Studia per diventare chi vuoi essere.", author: "Anonimo" },
+      { text: "La mente non è un vaso da riempire, ma un fuoco da accendere.", author: "Plutarco" },
+      { text: "Chi non ha mai commesso un errore non ha mai provato niente di nuovo.", author: "Albert Einstein" },
+      { text: "Ogni pagina che giri è un passo in più verso la vittoria.", author: "Anonimo" },
+      { text: "Il dolore dello studio è temporaneo. Il rimpianto di non aver studiato è permanente.", author: "Anonimo" },
+      { text: "Cadere è inevitabile. Rialzarsi è una scelta.", author: "Zig Ziglar" },
+      { text: "Anche i supereroi hanno fatto la maturità. Ce la fai anche tu.", author: "Anonimo" },
+      { text: "Istruzione non è riempire un secchio, ma accendere un fuoco.", author: "William Butler Yeats" },
+    ];
+
+    let lastQuoteIndex = -1;
+
+    function newQuote() {
+      let idx;
+      do { idx = Math.floor(Math.random() * quotes.length); } while (idx === lastQuoteIndex && quotes.length > 1);
+      lastQuoteIndex = idx;
+
+      const card = document.getElementById('quote-card');
+      card.classList.add('fade-out');
+
+      setTimeout(() => {
+        document.getElementById('quote-text').textContent   = quotes[idx].text;
+        document.getElementById('quote-author').textContent = '— ' + quotes[idx].author;
+        card.classList.remove('fade-out');
+      }, 300);
+    }
+
+    // Init
+    newQuote();
+  </script>
+</body>
 </html>
